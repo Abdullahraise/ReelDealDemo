@@ -3,358 +3,528 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ReelDeal – Buy & Sell Anything via Video</title>
+<title>ReelDeal – Buy &amp; Sell Anything via Video</title>
 <meta name="description" content="ReelDeal – The first A-to-Z second-hand marketplace powered by short-form video reels. Shop by category, swipe, bid instantly."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
-/* =====================================================
-   REELDEAL – Complete Design System
-   Self-contained: zero external CSS dependencies
-   ===================================================== */
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+/* =======================================================
+   REELDEAL v2 - TikTok-Grade Smooth Reels Engine
+   Self-contained: all CSS + JS inline, zero 404 risk
+   ======================================================= */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased}
 :root{
-  --bg:#06060a;
-  --surface:#0f0f18;
-  --surface2:#16161f;
-  --surface3:#1e1e2e;
-  --border:rgba(255,255,255,0.07);
-  --accent:#ff5c00;
-  --accent2:#ff8c42;
-  --accent-glow:rgba(255,92,0,0.25);
-  --green:#00e676;
-  --blue:#448aff;
-  --purple:#7c4dff;
-  --pink:#ff4081;
-  --text:#f0f0f8;
-  --text2:#9090a8;
-  --text3:#5a5a72;
-  --radius:16px;
-  --radius-sm:10px;
-  --shadow:0 4px 30px rgba(0,0,0,0.6);
-  font-family:'Outfit',system-ui,sans-serif;
+  --bg:#06060a;--surface:#0f0f18;--surface2:#16161f;--surface3:#1e1e2e;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --accent:#ff5c00;--accent2:#ff8c42;--accent-glow:rgba(255,92,0,0.3);
+  --green:#00e676;--blue:#448aff;--purple:#7c4dff;--pink:#ff4081;
+  --text:#f0f0f8;--text2:#9090a8;--text3:#5a5a72;
+  --radius:16px;--radius-sm:10px;--radius-xs:8px;
 }
-html,body{height:100%;background:var(--bg);color:var(--text);overflow:hidden}
+html,body{height:100%;background:var(--bg);color:var(--text);overflow:hidden;font-family:'Outfit',system-ui,sans-serif}
 
 /* ---- PAGE LAYOUT ---- */
-.page{display:flex;height:100vh;align-items:center;justify-content:center;gap:60px;padding:20px;overflow:hidden}
-@media(max-width:900px){.page{flex-direction:column;gap:20px;justify-content:flex-start;overflow:auto}}
+.page{display:flex;height:100vh;align-items:center;justify-content:center;gap:56px;padding:24px;overflow:hidden}
+@media(max-width:900px){.page{flex-direction:column;gap:16px;justify-content:flex-start;padding:12px;overflow-y:auto;height:auto;min-height:100vh}}
 
-/* ---- LEFT PITCH PANEL ---- */
-.pitch{flex:1;max-width:420px;display:flex;flex-direction:column;gap:24px}
-@media(max-width:900px){.pitch{max-width:360px;order:2}}
-.pitch-logo{font-size:2.2rem;font-weight:900;letter-spacing:-1px}
-.pitch-logo span{color:var(--accent)}
-.pitch-tag{display:inline-block;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent);border-radius:50px;font-size:.72rem;font-weight:600;letter-spacing:.08em;padding:4px 12px;text-transform:uppercase}
-.pitch h1{font-size:2rem;font-weight:800;line-height:1.2;letter-spacing:-.5px}
+/* ---- PITCH PANEL ---- */
+.pitch{flex:1;max-width:440px;display:flex;flex-direction:column;gap:20px}
+@media(max-width:900px){.pitch{order:2;max-width:100%}}
+.pitch-logo{font-size:2.4rem;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.pitch-logo span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pitch-tag{display:inline-flex;align-items:center;gap:6px;background:var(--accent-glow);color:var(--accent);border:1px solid rgba(255,92,0,0.4);border-radius:50px;font-size:.7rem;font-weight:700;letter-spacing:.08em;padding:4px 14px;text-transform:uppercase;width:fit-content}
+.pitch h1{font-size:1.9rem;font-weight:800;line-height:1.22;letter-spacing:-.5px}
 .pitch h1 em{color:var(--accent);font-style:normal}
-.pitch p{color:var(--text2);font-size:.95rem;line-height:1.65}
-.pitch-cards{display:grid;gap:12px}
-.pitch-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s}
-.pitch-card:hover{border-color:var(--accent)}
-.pitch-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
-.pitch-card h4{font-size:.85rem;font-weight:600;margin-bottom:2px}
-.pitch-card p{font-size:.78rem;color:var(--text2);line-height:1.5}
-.pitch-guide{background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius-sm);padding:14px 16px}
-.pitch-guide h5{font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
-.pitch-guide ol{padding-left:16px;display:flex;flex-direction:column;gap:5px}
-.pitch-guide li{font-size:.78rem;color:var(--text2);line-height:1.5}
+.pitch>p{color:var(--text2);font-size:.9rem;line-height:1.65}
+.pitch-cards{display:grid;gap:10px}
+.pitch-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s,transform .2s}
+.pitch-card:hover{border-color:rgba(255,92,0,.4);transform:translateX(4px)}
+.pitch-card-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
+.pitch-card h4{font-size:.82rem;font-weight:700;margin-bottom:3px}
+.pitch-card p{font-size:.75rem;color:var(--text2);line-height:1.5}
+.pitch-guide{background:var(--surface);border:1px dashed rgba(255,92,0,.25);border-radius:var(--radius-sm);padding:14px 16px}
+.pitch-guide h5{font-size:.72rem;font-weight:700;color:var(--accent2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em}
+.pitch-guide ol{padding-left:18px;display:flex;flex-direction:column;gap:6px}
+.pitch-guide li{font-size:.77rem;color:var(--text2);line-height:1.5}
 .pitch-guide li strong{color:var(--text)}
-.pitch-stats{display:flex;gap:16px}
-.stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;flex:1}
-.stat-val{font-size:1.4rem;font-weight:800;color:var(--accent)}
-.stat-lbl{font-size:.7rem;color:var(--text2);margin-top:2px}
+.pitch-stats{display:flex;gap:12px}
+.stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;flex:1;transition:border-color .2s}
+.stat:hover{border-color:var(--accent)}
+.stat-val{font-size:1.5rem;font-weight:900;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lbl{font-size:.65rem;color:var(--text2);margin-top:2px;line-height:1.3}
 
 /* ---- PHONE SHELL ---- */
 .phone-wrap{position:relative;flex-shrink:0}
-.phone{width:340px;height:680px;background:var(--surface);border-radius:40px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 0 8px #0a0a12,0 30px 80px rgba(0,0,0,.8),0 0 60px var(--accent-glow);overflow:hidden;position:relative;display:flex;flex-direction:column}
-.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:24px;background:#0a0a12;border-radius:20px;z-index:100;display:flex;align-items:center;justify-content:center;gap:6px}
-.notch-cam{width:10px;height:10px;border-radius:50%;background:#1a1a2e;border:1.5px solid #222}
-.notch-pill{width:36px;height:6px;border-radius:4px;background:#1a1a2e}
+@media(max-width:900px){.phone-wrap{order:1;align-self:center}}
+.phone-wrap::before{content:'';position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);width:220px;height:50px;border-radius:50%;background:var(--accent-glow);filter:blur(28px);pointer-events:none}
+.phone{width:340px;height:700px;background:var(--surface);border-radius:44px;border:1.5px solid rgba(255,255,255,0.1);box-shadow:0 0 0 9px #09090f,0 40px 100px rgba(0,0,0,.85),0 0 80px var(--accent-glow);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:110px;height:26px;background:#080810;border-radius:20px;z-index:100;display:flex;align-items:center;justify-content:center;gap:8px}
+.notch-cam{width:11px;height:11px;border-radius:50%;background:#1a1a2e;border:2px solid #222}
+.notch-pill{width:38px;height:6px;border-radius:4px;background:#1a1a2e}
 
 /* ---- STATUS BAR ---- */
-.status-bar{height:38px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px 8px;font-size:.7rem;font-weight:600;color:var(--text2);flex-shrink:0;z-index:10;position:relative}
-.status-right{display:flex;align-items:center;gap:5px}
-.battery{width:20px;height:10px;border:1.5px solid var(--text2);border-radius:3px;position:relative}
+.status-bar{height:40px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 22px 9px;font-size:.68rem;font-weight:600;color:var(--text2);flex-shrink:0;z-index:10;position:relative}
+.status-right{display:flex;align-items:center;gap:6px}
+.battery{width:22px;height:11px;border:1.5px solid var(--text2);border-radius:3px;position:relative;padding:1.5px}
 .battery::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:3px;height:5px;background:var(--text2);border-radius:0 2px 2px 0}
-.battery-fill{width:65%;height:100%;background:var(--green);border-radius:1.5px}
+.battery-fill{width:70%;height:100%;background:var(--green);border-radius:1.5px}
 
-/* ---- SCREEN CONTAINER ---- */
+/* ---- SCREEN SYSTEM ---- */
 .screen-wrap{flex:1;position:relative;overflow:hidden}
-.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;transition:opacity .25s,transform .25s;opacity:0;pointer-events:none;transform:translateY(20px)}
+.screen{position:absolute;inset:0;overflow:hidden;transition:opacity .28s ease,transform .28s ease;opacity:0;pointer-events:none;transform:translateY(12px)}
 .screen.active{opacity:1;pointer-events:auto;transform:none}
-.screen::-webkit-scrollbar{display:none}
 
-/* ---- HOME SCREEN ---- */
-#home{background:var(--bg);display:flex;flex-direction:column}
-.home-header{padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
-.location{display:flex;align-items:center;gap:6px}
-.loc-icon{color:var(--accent);font-size:.9rem}
+/* =======================================================
+   HOME SCREEN
+   ======================================================= */
+#home{background:var(--bg);display:flex;flex-direction:column;overflow-y:auto}
+#home::-webkit-scrollbar{display:none}
+.home-header{padding:14px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.location{display:flex;align-items:center;gap:7px;cursor:pointer}
+.loc-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent);animation:pulseLoc 2s infinite}
+@keyframes pulseLoc{0%,100%{box-shadow:0 0 4px var(--accent)}50%{box-shadow:0 0 12px var(--accent)}}
 .loc-text{display:flex;flex-direction:column}
-.loc-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.loc-label{font-size:.58rem;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
 .loc-val{font-size:.8rem;font-weight:600}
 .header-right{display:flex;gap:8px}
-.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;position:relative;transition:background .2s}
-.icon-btn:hover{background:var(--surface3)}
-.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--accent);border:1.5px solid var(--surface)}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;position:relative;transition:all .2s}
+.icon-btn:hover{background:var(--surface3);transform:scale(1.05)}
+.notif-dot{position:absolute;top:5px;right:5px;width:8px;height:8px;border-radius:50%;background:var(--accent);border:2px solid var(--surface);animation:pulseLoc 2s infinite}
 
 /* Search */
 .search-wrap{padding:8px 16px}
-.search-box{background:var(--surface2);border:1px solid var(--border);border-radius:50px;display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:text;transition:border-color .2s}
-.search-box:hover{border-color:var(--accent)}
+.search-box{background:var(--surface2);border:1.5px solid var(--border);border-radius:50px;display:flex;align-items:center;gap:8px;padding:10px 16px;cursor:text;transition:border-color .2s,box-shadow .2s}
+.search-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .search-box input{background:none;border:none;outline:none;color:var(--text);font-family:inherit;font-size:.82rem;flex:1}
 .search-box input::placeholder{color:var(--text3)}
-.search-icon{color:var(--text3);font-size:.85rem;flex-shrink:0}
-.mic-icon{color:var(--accent);font-size:.85rem;cursor:pointer}
 
-/* Promo banner */
-.promo-banner{margin:8px 16px;border-radius:var(--radius);background:linear-gradient(135deg,#1a0a00,#2d1100);border:1px solid rgba(255,92,0,0.2);padding:16px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;cursor:pointer}
-.promo-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,92,0,0.15),transparent)}
+/* Promo Banner */
+.promo-banner{margin:6px 16px;border-radius:var(--radius);background:linear-gradient(135deg,#180800,#2a1100);border:1px solid rgba(255,92,0,.2);padding:14px 16px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;cursor:pointer;transition:transform .2s}
+.promo-banner:hover{transform:scale(1.01)}
+.promo-banner::before{content:'';position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,92,0,.12),transparent)}
 .promo-info{z-index:1}
-.promo-tag-badge{display:inline-block;background:var(--accent);color:#fff;border-radius:4px;font-size:.58rem;font-weight:700;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-.promo-info h2{font-size:.95rem;font-weight:700;line-height:1.2;margin-bottom:3px}
-.promo-info p{font-size:.7rem;color:var(--text2)}
-.promo-emoji{font-size:2.4rem;z-index:1}
+.promo-badge{display:inline-block;background:var(--accent);color:#fff;border-radius:4px;font-size:.58rem;font-weight:700;padding:2px 8px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.promo-info h2{font-size:.92rem;font-weight:700;line-height:1.2;margin-bottom:2px}
+.promo-info p{font-size:.68rem;color:var(--text2)}
+.promo-emoji{font-size:2.6rem;z-index:1}
 
 /* Section header */
-.sec-header{padding:14px 16px 8px;display:flex;justify-content:space-between;align-items:center}
-.sec-header h3{font-size:.85rem;font-weight:700}
+.sec-header{padding:12px 16px 6px;display:flex;justify-content:space-between;align-items:center}
+.sec-header h3{font-size:.84rem;font-weight:700}
 .sec-see-all{font-size:.72rem;color:var(--accent);font-weight:600;cursor:pointer}
 
-/* Category grid */
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px}
-.cat-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.cat-item::before{content:'';position:absolute;inset:0;background:var(--cat-color,var(--accent));opacity:0;transition:opacity .2s;border-radius:inherit}
-.cat-item:hover::before{opacity:.08}
-.cat-item:active{transform:scale(.96)}
-.cat-icon-wrap{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
-.cat-label{font-size:.65rem;font-weight:600;text-align:center;line-height:1.3;color:var(--text2)}
+/* Category Grid */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:0 16px}
+.cat-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:11px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:all .18s;position:relative;overflow:hidden;will-change:transform}
+.cat-item::after{content:'';position:absolute;inset:0;background:var(--cat-glow,rgba(255,92,0,.08));opacity:0;transition:opacity .2s;border-radius:inherit}
+.cat-item:hover::after{opacity:1}
+.cat-item:active{transform:scale(.94)}
+.cat-icon-wrap{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.cat-label{font-size:.62rem;font-weight:600;text-align:center;line-height:1.3;color:var(--text2)}
 
-/* Trending carousel */
-.trending-scroll{display:flex;gap:10px;padding:0 16px 16px;overflow-x:auto;scroll-snap-type:x mandatory}
-.trending-scroll::-webkit-scrollbar{display:none}
-.trend-card{flex-shrink:0;width:130px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .2s;scroll-snap-align:start}
-.trend-card:hover{transform:translateY(-3px)}
-.trend-thumb{position:relative;height:90px;overflow:hidden;background:var(--surface3)}
-.trend-thumb img{width:100%;height:100%;object-fit:cover}
-.trend-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3)}
-.trend-play span{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#000}
-.trend-info{padding:8px}
-.trend-title{font-size:.68rem;font-weight:600;display:block;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.trend-price{font-size:.75rem;font-weight:700;color:var(--accent);display:block;margin-top:3px}
-.trend-seller{font-size:.6rem;color:var(--text3);display:flex;align-items:center;gap:3px;margin-top:2px}
+/* Trending Carousel */
+.trend-scroll{display:flex;gap:10px;padding:0 16px 16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.trend-scroll::-webkit-scrollbar{display:none}
+.trend-card{flex-shrink:0;width:128px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .18s;scroll-snap-align:start;will-change:transform}
+.trend-card:hover{transform:translateY(-4px)}
+.trend-thumb{position:relative;height:86px;overflow:hidden;background:var(--surface3)}
+.trend-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+.trend-card:hover .trend-thumb img{transform:scale(1.06)}
+.trend-play-btn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.25);transition:background .2s}
+.trend-card:hover .trend-play-btn{background:rgba(0,0,0,.15)}
+.play-circle{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.9);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:#000;padding-left:2px}
+.trend-info{padding:7px 8px}
+.trend-title{font-size:.66rem;font-weight:600;display:block;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trend-price{font-size:.74rem;font-weight:800;color:var(--accent);display:block;margin-top:2px}
+.trend-views{font-size:.58rem;color:var(--text3);margin-top:2px}
 
-/* ---- REELS SCREEN ---- */
-#reels{background:#000;padding:0;display:flex;flex-direction:column}
-.reels-top{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent)}
-.reels-back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;padding:6px 12px;border-radius:50px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .2s}
-.reels-back-btn:hover{background:rgba(255,255,255,0.25)}
-.reels-cat-title{font-size:.85rem;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.reels-mute-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:background .2s}
-.reels-mute-btn:hover{background:rgba(255,255,255,0.25)}
+/* =======================================================
+   REELS SCREEN  -  TikTok-Grade Smooth Engine
+   ======================================================= */
+#reels{background:#000;padding:0}
 
-.reel-viewport{flex:1;position:relative;overflow-y:scroll;scroll-snap-type:y mandatory}
+/* ---- TOP BAR (overlaid on video) ---- */
+.reels-top{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:10px 14px 20px;background:linear-gradient(to bottom,rgba(0,0,0,.72) 0%,transparent 100%)}
+.reels-back{background:rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);color:#fff;padding:6px 12px;border-radius:50px;font-size:.72rem;font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s}
+.reels-back:hover{background:rgba(255,255,255,.25)}
+.reels-cat-label{font-size:.84rem;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+.reels-mute{background:rgba(255,255,255,.14);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);color:#fff;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.9rem;transition:background .2s}
+.reels-mute:hover{background:rgba(255,255,255,.25)}
+
+/* ---- SNAP VIEWPORT (THE CORE ENGINE) ---- */
+/*
+   This is the exact technique TikTok uses:
+   - scroll-snap-type: y mandatory  → locks to exactly one slide per scroll
+   - scroll-snap-stop: always       → prevents fast flick from jumping 2+ slides
+   - IntersectionObserver at 80%   → auto-play video the moment it's mostly visible
+   - will-change: transform         → pushes each slide to its own GPU layer = 60fps
+*/
+.reel-viewport{
+  position:absolute;
+  inset:0;
+  overflow-y:scroll;
+  overflow-x:hidden;
+  scroll-snap-type:y mandatory;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
+}
 .reel-viewport::-webkit-scrollbar{display:none}
-.reel-slide{height:100%;scroll-snap-align:start;position:relative;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.reel-slide video,.reel-slide .reel-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.reel-slide .reel-img-bg{filter:blur(0px);transition:filter .3s}
-.reel-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
 
-/* Sidebar actions */
-.reel-sidebar{position:absolute;right:10px;bottom:110px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:10}
-.reel-action{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:transform .2s}
-.reel-action:hover{transform:scale(1.1)}
-.reel-action:active{transform:scale(.9)}
-.reel-action-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
-.reel-action:hover .reel-action-btn{background:rgba(255,255,255,0.25)}
-.reel-action-count{font-size:.6rem;color:rgba(255,255,255,.8);font-weight:600}
+/* Each slide occupies exactly 100% of the viewport height */
+.reel-slide{
+  position:relative;
+  width:100%;
+  height:100%;
+  flex-shrink:0;
+  scroll-snap-align:start;
+  scroll-snap-stop:always;     /* critical: prevents multi-slide skip on fast swipe */
+  overflow:hidden;
+  background:#000;
+  will-change:transform;       /* GPU layer promotion = buttery smooth */
+}
 
-/* Reel info bar */
-.reel-info{position:absolute;bottom:0;left:0;right:56px;padding:12px 14px;z-index:10}
+/* ---- VIDEO ELEMENT ---- */
+.reel-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:opacity .3s;
+}
+/* Fallback image when video hasn't loaded */
+.reel-img-fallback{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:1;
+  transition:opacity .4s;
+}
+.reel-slide.video-ready .reel-img-fallback{opacity:0}
+
+/* ---- VIDEO PROGRESS BAR (exactly like TikTok) ---- */
+.reel-progress-bar{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:rgba(255,255,255,.2);
+  z-index:25;
+}
+.reel-progress-fill{
+  height:100%;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  width:0%;
+  transition:width .1s linear;
+  border-radius:0 2px 2px 0;
+}
+
+/* ---- GRADIENT OVERLAYS ---- */
+.reel-gradient-top{position:absolute;top:0;left:0;right:0;height:180px;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent);z-index:5;pointer-events:none}
+.reel-gradient-bot{position:absolute;bottom:0;left:0;right:0;height:240px;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.2) 70%,transparent 100%);z-index:5;pointer-events:none}
+
+/* ---- LOADING SKELETON (shows while video loads) ---- */
+.reel-skeleton{
+  position:absolute;inset:0;z-index:2;
+  background:linear-gradient(90deg,#111 25%,#1a1a1a 50%,#111 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.4s infinite;
+  opacity:1;transition:opacity .3s;
+}
+.reel-slide.video-ready .reel-skeleton{opacity:0;pointer-events:none}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+/* ---- SIDEBAR ACTIONS (like TikTok right side) ---- */
+.reel-sidebar{
+  position:absolute;
+  right:10px;
+  bottom:130px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  align-items:center;
+  z-index:20;
+}
+.reel-action{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer}
+.reel-action-btn{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;
+  transition:transform .15s,background .15s;
+  will-change:transform;
+}
+.reel-action:active .reel-action-btn{transform:scale(.88)}
+.reel-action:hover .reel-action-btn{background:rgba(255,255,255,.24)}
+.reel-action.liked .reel-action-btn{background:rgba(255,41,41,.25);border-color:rgba(255,60,60,.4)}
+.reel-action-count{font-size:.62rem;color:rgba(255,255,255,.85);font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+
+/* ---- SELLER INFO + PRODUCT INFO ---- */
+.reel-info{
+  position:absolute;
+  bottom:0;left:0;right:60px;
+  padding:12px 14px 14px;
+  z-index:20;
+}
 .reel-seller{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.seller-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);overflow:hidden;flex-shrink:0}
-.seller-avatar img{width:100%;height:100%;object-fit:cover}
-.seller-name{font-size:.78rem;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.5)}
-.seller-badge{font-size:.58rem;background:var(--green);color:#000;font-weight:700;border-radius:3px;padding:1px 5px}
-.reel-title{font-size:1rem;font-weight:700;line-height:1.25;margin-bottom:4px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.reel-meta{font-size:.7rem;color:rgba(255,255,255,.7);margin-bottom:10px;display:flex;gap:10px}
-.reel-condition{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.12);border-radius:4px;padding:2px 7px}
-.reel-actions-row{display:flex;gap:8px}
-.btn-offer{flex:1;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:50px;padding:9px 14px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
-.btn-offer:hover{background:rgba(255,255,255,0.25)}
-.btn-buy{flex:1.2;background:var(--accent);border:none;color:#fff;border-radius:50px;padding:9px 14px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;box-shadow:0 4px 15px var(--accent-glow)}
-.btn-buy:hover{background:var(--accent2)}
-.reel-price-tag{position:absolute;top:54px;left:14px;background:var(--accent);color:#fff;border-radius:8px;padding:4px 10px;font-size:.8rem;font-weight:800;z-index:10;box-shadow:0 2px 10px var(--accent-glow)}
+.seller-av{width:34px;height:34px;border-radius:50%;border:2px solid var(--accent);overflow:hidden;flex-shrink:0;background:var(--surface3)}
+.seller-av img{width:100%;height:100%;object-fit:cover}
+.seller-name{font-size:.78rem;font-weight:700;text-shadow:0 1px 5px rgba(0,0,0,.6)}
+.seller-verified{font-size:.56rem;background:var(--green);color:#000;font-weight:800;border-radius:3px;padding:1px 5px;margin-left:4px}
+.reel-title{font-size:1rem;font-weight:800;line-height:1.2;margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,.6)}
+.reel-desc{font-size:.72rem;color:rgba(255,255,255,.75);margin-bottom:8px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.reel-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.reel-tag{font-size:.65rem;color:rgba(255,255,255,.7);background:rgba(255,255,255,.1);padding:2px 8px;border-radius:50px}
+.reel-tag.accent-tag{color:var(--accent2)}
+.reel-cta{display:flex;gap:7px}
+.btn-offer{
+  flex:1;
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,.3);
+  color:#fff;border-radius:50px;
+  padding:9px 10px;font-size:.73rem;font-weight:700;
+  cursor:pointer;transition:all .18s;font-family:inherit;
+  text-align:center;
+}
+.btn-offer:hover{background:rgba(255,255,255,.24)}
+.btn-buy{
+  flex:1.3;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;color:#fff;border-radius:50px;
+  padding:9px 10px;font-size:.73rem;font-weight:800;
+  cursor:pointer;transition:all .18s;font-family:inherit;
+  box-shadow:0 4px 20px var(--accent-glow);
+  text-align:center;
+}
+.btn-buy:hover{transform:scale(1.02);box-shadow:0 6px 28px var(--accent-glow)}
+.reel-buy:active{transform:scale(.97)}
 
-/* Double tap heart */
-.heart-burst{position:absolute;pointer-events:none;font-size:3rem;z-index:50;animation:heartBurst .7s ease-out forwards;opacity:0}
-@keyframes heartBurst{0%{opacity:1;transform:scale(.5) translateY(0)}50%{opacity:1;transform:scale(1.3) translateY(-30px)}100%{opacity:0;transform:scale(1.5) translateY(-70px)}}
+/* Price tag floating */
+.reel-price-badge{
+  position:absolute;top:52px;left:14px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;border-radius:10px;
+  padding:4px 11px;font-size:.8rem;font-weight:900;
+  z-index:25;box-shadow:0 3px 14px var(--accent-glow);
+  animation:badgePop .4s cubic-bezier(.4,0,.2,1);
+}
+@keyframes badgePop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
 
-/* Reel nav arrows (desktop hint) */
-.reel-nav-arrows{position:absolute;right:60px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:10;opacity:0;transition:opacity .3s}
-#reels:hover .reel-nav-arrows{opacity:1}
-.reel-nav-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:background .2s}
-.reel-nav-btn:hover{background:rgba(255,255,255,0.3)}
+/* Condition badge */
+.reel-cond-badge{
+  position:absolute;top:52px;right:14px;
+  background:rgba(0,0,0,.5);backdrop-filter:blur(8px);
+  color:rgba(255,255,255,.9);border-radius:8px;
+  padding:4px 9px;font-size:.62rem;font-weight:600;z-index:25;
+  border:1px solid rgba(255,255,255,.15);
+}
 
-/* ---- NAV BAR ---- */
-.nav-bar{height:60px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;flex-shrink:0;padding:0 8px;z-index:30}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 2px;border-radius:8px;transition:background .2s;border:none;background:none;color:var(--text3)}
+/* Double-tap heart burst */
+.heart-burst{position:absolute;pointer-events:none;font-size:3.5rem;z-index:60;animation:heartBurst .75s ease-out forwards;opacity:0;filter:drop-shadow(0 0 8px red)}
+@keyframes heartBurst{0%{opacity:1;transform:scale(.5) translateY(0)}60%{opacity:1;transform:scale(1.4) translateY(-40px)}100%{opacity:0;transform:scale(1.6) translateY(-90px)}}
+
+/* Swipe hint (shows once, then fades) */
+.swipe-hint{
+  position:absolute;bottom:100px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.55);backdrop-filter:blur(8px);
+  color:rgba(255,255,255,.85);font-size:.7rem;font-weight:600;
+  padding:8px 16px;border-radius:50px;z-index:30;
+  animation:hintFade 3s ease 1.5s forwards;opacity:0;pointer-events:none;
+  white-space:nowrap;
+}
+@keyframes hintFade{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}85%{opacity:1}100%{opacity:0}}
+
+/* Desktop scroll arrows (appear on hover over reels) */
+.reel-arrows{position:absolute;right:62px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:25;opacity:0;transition:opacity .25s}
+#reels:hover .reel-arrows{opacity:1}
+.reel-arrow-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:background .2s;font-family:inherit}
+.reel-arrow-btn:hover{background:rgba(255,255,255,.3)}
+
+/* =======================================================
+   SELL SCREEN
+   ======================================================= */
+#sell{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px;overflow-y:auto}
+#sell::-webkit-scrollbar{display:none}
+.sell-title{font-size:1.1rem;font-weight:800}
+.sell-sub{font-size:.78rem;color:var(--text2);text-align:center;line-height:1.55;max-width:240px}
+.sell-steps{width:100%;display:flex;flex-direction:column;gap:9px}
+.sell-step{display:flex;gap:12px;align-items:center;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.sell-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-size:.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sell-step h5{font-size:.78rem;font-weight:700;margin-bottom:2px}
+.sell-step p{font-size:.68rem;color:var(--text2)}
+
+/* =======================================================
+   INBOX / PROFILE SCREENS
+   ======================================================= */
+#inbox,#profile{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.empty-ico{font-size:2.8rem;opacity:.35}
+.empty-title{font-size:.9rem;font-weight:700}
+.empty-sub{font-size:.74rem;color:var(--text2);line-height:1.55;max-width:220px}
+
+/* =======================================================
+   NAV BAR
+   ======================================================= */
+.nav-bar{height:62px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;flex-shrink:0;padding:0 6px;z-index:30;backdrop-filter:blur(10px)}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 2px;border-radius:10px;transition:all .18s;border:none;background:none;color:var(--text3);font-family:inherit}
 .nav-item:hover{background:var(--surface2)}
 .nav-item.active{color:var(--accent)}
 .nav-icon{font-size:1.1rem}
-.nav-label{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.nav-sell{position:relative}
-.sell-circle{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px var(--accent-glow);margin-top:-16px;transition:transform .2s}
-.sell-circle:hover{transform:scale(1.1)}
+.nav-label{font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em}
+.nav-sell-btn{position:relative}
+.sell-plus{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:0 4px 20px var(--accent-glow);margin-top:-18px;transition:transform .18s;color:#fff;border:none;cursor:pointer;font-family:inherit}
+.sell-plus:hover{transform:scale(1.1) rotate(90deg)}
 
-/* ---- MODAL SYSTEM ---- */
-.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+/* =======================================================
+   MODAL SYSTEM
+   ======================================================= */
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
 .modal-backdrop.open{opacity:1;pointer-events:auto}
-.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:24px 24px 0 0;border-top:1px solid var(--border);z-index:60;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:90%;overflow-y:auto;display:flex;flex-direction:column}
-.modal-sheet.open{transform:none}
-.modal-drag{width:36px;height:4px;border-radius:2px;background:var(--surface3);margin:10px auto 0}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px}
-.modal-head h3{font-size:1rem;font-weight:700}
-.modal-close{width:28px;height:28px;border-radius:50%;background:var(--surface2);border:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:background .2s}
+.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:26px 26px 0 0;border-top:1px solid var(--border2);z-index:60;transform:translateY(100%);transition:transform .34s cubic-bezier(.32,0,.67,0);max-height:92%;overflow-y:auto;display:flex;flex-direction:column}
+.modal-sheet.open{transform:none;transition-timing-function:cubic-bezier(.16,1,.3,1)}
+.modal-sheet::-webkit-scrollbar{display:none}
+.modal-drag{width:38px;height:4px;border-radius:2px;background:var(--surface3);margin:10px auto 0;flex-shrink:0}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;flex-shrink:0}
+.modal-head h3{font-size:.95rem;font-weight:800}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--surface2);border:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .18s;font-family:inherit}
 .modal-close:hover{background:var(--surface3)}
-.modal-body{padding:0 20px 24px;display:flex;flex-direction:column;gap:14px}
-.modal-product-row{display:flex;align-items:center;gap:12px;background:var(--surface2);border-radius:var(--radius-sm);padding:12px}
-.modal-product-row img{width:52px;height:52px;border-radius:8px;object-fit:cover}
-.modal-product-row h4{font-size:.85rem;font-weight:600;margin-bottom:2px}
-.modal-product-row p{font-size:.75rem;color:var(--text2)}
-.offer-slider-wrap{display:flex;flex-direction:column;gap:8px}
-.offer-slider-wrap label{font-size:.78rem;color:var(--text2);display:flex;justify-content:space-between}
-.offer-slider-wrap label strong{color:var(--accent);font-size:.9rem}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--surface3);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px var(--accent-glow)}
-.range-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text3)}
-.info-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;display:flex;gap:10px;align-items:flex-start}
-.info-box-icon{flex-shrink:0;font-size:1rem;color:var(--green)}
-.info-box p{font-size:.72rem;color:var(--text2);line-height:1.5}
+.modal-body{padding:0 20px 28px;display:flex;flex-direction:column;gap:14px}
+
+/* Product row inside modal */
+.modal-product{display:flex;align-items:center;gap:12px;background:var(--surface2);border-radius:var(--radius-sm);padding:12px}
+.modal-product img{width:54px;height:54px;border-radius:10px;object-fit:cover;flex-shrink:0}
+.modal-product h4{font-size:.84rem;font-weight:700;margin-bottom:3px}
+.modal-product p{font-size:.72rem;color:var(--text2)}
+
+/* Offer slider */
+.slider-wrap{display:flex;flex-direction:column;gap:9px}
+.slider-label{font-size:.76rem;color:var(--text2);display:flex;justify-content:space-between;align-items:center}
+.slider-label strong{font-size:.95rem;color:var(--accent);font-weight:900}
+input[type=range]{-webkit-appearance:none;width:100%;height:5px;border-radius:3px;background:var(--surface3);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));cursor:pointer;box-shadow:0 0 12px var(--accent-glow);transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.range-labels{display:flex;justify-content:space-between;font-size:.62rem;color:var(--text3)}
+
+/* Info box */
+.info-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:11px;display:flex;gap:10px;align-items:flex-start}
+.info-box-icon{flex-shrink:0;font-size:1rem}
+.info-box p{font-size:.7rem;color:var(--text2);line-height:1.5}
 .info-box p strong{color:var(--text)}
-.btn-primary{width:100%;padding:14px;border:none;border-radius:50px;background:var(--accent);color:#fff;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
-.btn-secondary{width:100%;padding:12px;border:1px solid var(--border);border-radius:50px;background:var(--surface2);color:var(--text);font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s}
+
+/* Primary / secondary buttons */
+.btn-primary{width:100%;padding:14px;border:none;border-radius:50px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-family:inherit;font-size:.86rem;font-weight:800;cursor:pointer;transition:all .2s;box-shadow:0 5px 22px var(--accent-glow)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px var(--accent-glow)}
+.btn-primary:active{transform:scale(.97)}
+.btn-secondary{width:100%;padding:12px;border:1.5px solid var(--border2);border-radius:50px;background:var(--surface2);color:var(--text);font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .2s}
 .btn-secondary:hover{background:var(--surface3)}
 
-/* Checkout modal specifics */
-.checkout-line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:.8rem}
-.checkout-line:last-child{border-bottom:none}
-.checkout-line.total{font-weight:700;font-size:.9rem}
-.checkout-line .green{color:var(--green)}
-.mock-card{background:linear-gradient(135deg,#1a1a2e,#2d2d4e);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
-.mock-card-top{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:var(--text2)}
-.mock-card-num{font-size:.9rem;font-weight:600;letter-spacing:.12em;color:var(--text)}
-.mock-card-bot{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text2)}
+/* Checkout modal lines */
+.checkout-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.checkout-row:last-child{border:none}
+.checkout-row.total-row{font-weight:800;font-size:.9rem;margin-top:2px}
+.price-green{color:var(--green)}
+.mock-card{background:linear-gradient(135deg,#1a1a30,#2a2a50);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.08)}
+.mock-card-top{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text2);margin-bottom:8px}
+.mock-card-num{font-size:.88rem;font-weight:600;letter-spacing:.14em;margin-bottom:8px}
+.mock-card-bot{display:flex;justify-content:space-between;font-size:.68rem;color:var(--text2)}
 
-/* WA Notification toast */
-.wa-toast{position:absolute;top:46px;left:12px;right:12px;background:#1e2b1e;border:1px solid #2a4a2a;border-radius:14px;padding:12px;z-index:100;transform:translateY(-120%);transition:transform .4s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 30px rgba(0,0,0,.5)}
-.wa-toast.show{transform:none}
-.wa-toast-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.wa-toast-logo{width:22px;height:22px;border-radius:6px;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0}
-.wa-toast-title{font-size:.72rem;font-weight:700;color:#a5d6a7;flex:1}
-.wa-toast-time{font-size:.6rem;color:#5a8a5a}
-.wa-toast-msg{font-size:.72rem;color:#c8e6c9;line-height:1.45;margin-bottom:10px}
-.wa-toast-btns{display:flex;gap:8px}
-.wa-btn{flex:1;padding:7px;border-radius:8px;border:none;font-family:inherit;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
-.wa-btn-decline{background:rgba(255,255,255,0.1);color:#ccc}
-.wa-btn-accept{background:#25d366;color:#000}
-.wa-btn-accept:hover{background:#1fba57}
+/* =======================================================
+   WHATSAPP TOAST NOTIFICATION (Seller perspective)
+   ======================================================= */
+.wa-toast{
+  position:absolute;top:44px;left:10px;right:10px;
+  background:rgba(18,35,18,.95);
+  border:1px solid rgba(37,211,102,.25);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:16px;padding:13px;z-index:100;
+  transform:translateY(-120%) scale(.95);
+  transition:transform .4s cubic-bezier(.16,1,.3,1),opacity .3s;
+  opacity:0;
+  box-shadow:0 10px 40px rgba(0,0,0,.6);
+}
+.wa-toast.show{transform:none;opacity:1}
+.wa-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.wa-logo{width:24px;height:24px;border-radius:7px;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:900;color:#fff;flex-shrink:0}
+.wa-title{font-size:.72rem;font-weight:700;color:#a5d6a7;flex:1}
+.wa-time{font-size:.58rem;color:#4a7a4a}
+.wa-msg{font-size:.73rem;color:#c8e6c9;line-height:1.45;margin-bottom:10px}
+.wa-btns{display:flex;gap:8px}
+.wa-btn{flex:1;padding:8px;border-radius:9px;border:none;font-family:inherit;font-size:.72rem;font-weight:700;cursor:pointer;transition:all .18s}
+.wa-decline{background:rgba(255,255,255,.1);color:#bbb}
+.wa-accept{background:#25d366;color:#000}
+.wa-accept:hover{background:#1fba57}
 
-/* Success overlay */
-.success-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:80;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+/* =======================================================
+   SUCCESS OVERLAY
+   ======================================================= */
+.success-overlay{position:absolute;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:80;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
 .success-overlay.show{opacity:1;pointer-events:auto}
-.success-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px 24px;text-align:center;max-width:260px;display:flex;flex-direction:column;align-items:center;gap:14px}
-.success-icon{width:60px;height:60px;border-radius:50%;background:rgba(0,230,118,0.15);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:1.6rem}
-.success-card h3{font-size:1.05rem;font-weight:700}
-.success-card p{font-size:.78rem;color:var(--text2);line-height:1.5}
-.success-sim{display:flex;align-items:center;gap:8px;font-size:.72rem;color:var(--text2)}
+.success-card{background:var(--surface);border:1px solid var(--border2);border-radius:24px;padding:28px 24px;text-align:center;max-width:260px;display:flex;flex-direction:column;align-items:center;gap:14px;animation:cardPop .4s cubic-bezier(.16,1,.3,1)}
+@keyframes cardPop{from{transform:scale(.85);opacity:0}to{transform:scale(1);opacity:1}}
+.success-icon{width:64px;height:64px;border-radius:50%;background:rgba(0,230,118,.12);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:1.8rem}
+.success-card h3{font-size:1.05rem;font-weight:800}
+.success-card p{font-size:.77rem;color:var(--text2);line-height:1.55}
+.success-sim{display:flex;align-items:center;gap:8px;font-size:.7rem;color:var(--text2)}
 .sim-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:simPulse 1s infinite}
-@keyframes simPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+@keyframes simPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.65)}}
 
-/* Sell screen */
-#sell{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px}
-.sell-screen-title{font-size:1.1rem;font-weight:700}
-.sell-screen-sub{font-size:.78rem;color:var(--text2);text-align:center;line-height:1.5}
-.sell-steps{width:100%;display:flex;flex-direction:column;gap:10px}
-.sell-step{display:flex;gap:12px;align-items:flex-start;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
-.sell-step-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.sell-step-text h5{font-size:.78rem;font-weight:600;margin-bottom:2px}
-.sell-step-text p{font-size:.7rem;color:var(--text2)}
-
-/* Profile/inbox (mock) */
-#inbox,#profile{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
-.empty-icon{font-size:2.5rem;opacity:.4}
-.empty-title{font-size:.9rem;font-weight:600}
-.empty-sub{font-size:.75rem;color:var(--text2);line-height:1.5;max-width:220px}
-
-/* Animations */
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.anim-fade{animation:fadeIn .4s ease}
-.anim-slide{animation:slideUp .4s ease}
-
-/* ---- PROMO GLOW EFFECTS ---- */
-.phone-wrap::before{content:'';position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:200px;height:60px;border-radius:50%;background:var(--accent-glow);filter:blur(30px);pointer-events:none}
-.phone-wrap::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(100,80,255,.12);filter:blur(20px);pointer-events:none}
+/* Global utility */
+@media(max-width:400px){.phone{width:320px;height:640px}}
 </style>
 </head>
 <body>
+
 <div class="page">
 
-  <!-- LEFT: PITCH PANEL -->
+  <!-- ============================
+       LEFT: PITCH PANEL
+       ============================ -->
   <div class="pitch">
-    <div>
-      <div class="pitch-logo"><span>Reel</span>Deal</div>
-    </div>
-    <div class="pitch-tag">Investor Demo • Zero Cost</div>
-    <h1>Buy &amp; sell anything via <em>short video reels</em></h1>
-    <p>The first A-to-Z second-hand marketplace where <strong>every listing is a video</strong>. Category-first browsing like Zepto, vertical reels like TikTok, instant escrow-backed bids via WhatsApp — all in one app.</p>
+    <div class="pitch-logo"><span>Reel</span>Deal</div>
+    <span class="pitch-tag">&#9654; Investor Demo &mdash; v2.0</span>
+    <h1>The <em>TikTok of second-hand</em> buying &amp; selling</h1>
+    <p>Every listing is a video reel. Category-first entry like Zepto. Instant escrow-backed bids via WhatsApp. A-to-Z second-hand goods, zero trust issues.</p>
     <div class="pitch-cards">
       <div class="pitch-card">
-        <div class="pitch-card-icon" style="background:rgba(255,92,0,.15)">⚡</div>
-        <div>
-          <h4>Zepto-Style Directory</h4>
-          <p>High-intent buyers land on the exact category they want before they start swiping — 3× faster discovery than OLX/Facebook Marketplace.</p>
-        </div>
+        <div class="pitch-card-icon" style="background:rgba(255,92,0,.15)">&#9889;</div>
+        <div><h4>TikTok-Grade Smooth Scrolling</h4><p>CSS scroll-snap + IntersectionObserver + GPU compositing. 60fps video playback. Identical to TikTok&rsquo;s core web engine.</p></div>
       </div>
       <div class="pitch-card">
-        <div class="pitch-card-icon" style="background:rgba(0,230,118,.12)">🛡️</div>
-        <div>
-          <h4>Zero Late-Replies</h4>
-          <p>Offer pre-authorises payment instantly. Seller taps Accept on WhatsApp → funds move to escrow. No chat ping-pong.</p>
-        </div>
+        <div class="pitch-card-icon" style="background:rgba(0,230,118,.12)">&#128737;</div>
+        <div><h4>Zero Ghost Sellers</h4><p>Offer pre-authorises escrow in one tap. Seller replies on WhatsApp. No back-and-forth, no wait time, no scams.</p></div>
       </div>
       <div class="pitch-card">
-        <div class="pitch-card-icon" style="background:rgba(68,138,255,.12)">🎬</div>
-        <div>
-          <h4>Video = Trust</h4>
-          <p>Sellers demo items live — defects, working condition, size — eliminating misleading photos and 90% of disputes.</p>
-        </div>
+        <div class="pitch-card-icon" style="background:rgba(68,138,255,.12)">&#127909;</div>
+        <div><h4>Video = Trust</h4><p>Sellers show the item working live. Eliminates misleading photos, undisclosed defects, and 90% of disputes.</p></div>
       </div>
     </div>
     <div class="pitch-stats">
-      <div class="stat"><div class="stat-val">A–Z</div><div class="stat-lbl">Every category, like Amazon for used goods</div></div>
-      <div class="stat"><div class="stat-val">$0</div><div class="stat-lbl">Cost to build this prototype</div></div>
-      <div class="stat"><div class="stat-val">5%</div><div class="stat-lbl">Escrow take-rate per transaction</div></div>
+      <div class="stat"><div class="stat-val">A&ndash;Z</div><div class="stat-lbl">Everything, like Amazon but second-hand</div></div>
+      <div class="stat"><div class="stat-val">$0</div><div class="stat-lbl">Cost to run this prototype</div></div>
+      <div class="stat"><div class="stat-val">5%</div><div class="stat-lbl">Escrow take-rate per sale</div></div>
     </div>
     <div class="pitch-guide">
-      <h5>💡 Interactive Demo Guide</h5>
+      <h5>&#128161; How to demo this</h5>
       <ol>
-        <li>Tap a <strong>category</strong> (e.g. Tech or Fashion) on the home screen.</li>
-        <li><strong>Swipe up</strong> or use the arrows to browse reels.</li>
-        <li>Tap <strong>"Make Offer"</strong> → slide the bid → submit to see the <strong>WhatsApp notification</strong> pop up.</li>
-        <li>Try <strong>"Buy Now"</strong> to see the escrow checkout flow.</li>
+        <li>Tap any <strong>category</strong> (Tech, Fashion&hellip;) on the home screen.</li>
+        <li><strong>Swipe up</strong> or use &#9650;&#9660; arrows to snap between reels.</li>
+        <li>Tap <strong>Make Offer</strong> &rarr; slide the price &rarr; <strong>Pre-Authorize &amp; Bid</strong>.</li>
+        <li>Watch the <strong>WhatsApp notification</strong> appear as the seller.</li>
+        <li><strong>Double-tap</strong> any reel to drop a heart.</li>
       </ol>
     </div>
   </div>
 
-  <!-- RIGHT: PHONE -->
+  <!-- ============================
+       RIGHT: PHONE MOCKUP
+       ============================ -->
   <div class="phone-wrap">
     <div class="phone" id="phone">
 
-      <!-- NOTCH -->
       <div class="phone-notch">
         <div class="notch-cam"></div>
         <div class="notch-pill"></div>
@@ -362,106 +532,109 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
       <!-- STATUS BAR -->
       <div class="status-bar">
-        <span id="live-time">12:00</span>
+        <span id="liveTime">12:00</span>
         <div class="status-right">
-          <span>▲▼</span>
-          <span>WiFi</span>
+          <span style="font-size:.65rem">&#9650;&#9660;</span>
+          <span style="font-size:.7rem">5G</span>
           <div class="battery"><div class="battery-fill"></div></div>
         </div>
       </div>
 
-      <!-- SCREEN CONTAINER -->
+      <!-- SCREENS -->
       <div class="screen-wrap">
 
-        <!-- ======= HOME SCREEN ======= -->
+        <!-- =================== HOME =================== -->
         <div class="screen active" id="home">
           <div class="home-header">
             <div class="location">
-              <span class="loc-icon">📍</span>
+              <div class="loc-dot"></div>
               <div class="loc-text">
                 <span class="loc-label">Your Location</span>
-                <span class="loc-val">Mumbai, IN ▾</span>
+                <span class="loc-val">Mumbai, IN &#9662;</span>
               </div>
             </div>
             <div class="header-right">
-              <button class="icon-btn" onclick="navTo('inbox')">💬</button>
-              <button class="icon-btn" style="position:relative" onclick="navTo('inbox')">🔔<span class="notif-dot"></span></button>
+              <button class="icon-btn" onclick="navTo('inbox')">&#128172;</button>
+              <button class="icon-btn" onclick="navTo('inbox')">&#128276;<span class="notif-dot"></span></button>
             </div>
           </div>
 
           <div class="search-wrap">
             <div class="search-box">
-              <span class="search-icon">🔍</span>
-              <input type="text" placeholder="Search clothes, laptops, sneakers…" readonly onfocus="this.blur()"/>
-              <span class="mic-icon">🎤</span>
+              <span>&#128269;</span>
+              <input type="text" placeholder="Clothes, laptops, sneakers&hellip;" readonly onfocus="this.blur()"/>
+              <span style="color:var(--accent);cursor:pointer">&#127908;</span>
             </div>
           </div>
 
           <div class="promo-banner" onclick="openCategory('tech')">
             <div class="promo-info">
-              <span class="promo-tag-badge">🔥 Hot Deals</span>
+              <span class="promo-badge">&#128293; Hot Deals</span>
               <h2>Trust-Verified P2P</h2>
-              <p>Escrow payment · 48h return window</p>
+              <p>Escrow &middot; 48h return window</p>
             </div>
-            <span class="promo-emoji">🛡️</span>
+            <span class="promo-emoji">&#128737;</span>
           </div>
 
           <div class="sec-header">
             <h3>Shop by Category</h3>
-            <span class="sec-see-all">A to Z →</span>
+            <span class="sec-see-all">A to Z &rarr;</span>
           </div>
-
           <div class="cat-grid" id="catGrid"></div>
 
           <div class="sec-header">
             <h3>Trending Near You</h3>
             <span class="sec-see-all">See All</span>
           </div>
-
-          <div class="trending-scroll" id="trendingScroll"></div>
+          <div class="trend-scroll" id="trendScroll"></div>
         </div>
 
-        <!-- ======= REELS SCREEN ======= -->
+        <!-- =================== REELS =================== -->
         <div class="screen" id="reels">
+          <!-- Overlaid top bar -->
           <div class="reels-top">
-            <button class="reels-back-btn" onclick="navTo('home')">← Back</button>
-            <span class="reels-cat-title" id="reelsCatTitle">Category</span>
-            <button class="reels-mute-btn" id="muteBtn" onclick="toggleMute()">🔇</button>
+            <button class="reels-back" onclick="navTo('home')">&#8592; Back</button>
+            <span class="reels-cat-label" id="reelsCatLabel">Feed</span>
+            <div class="reels-mute" id="muteBtn" onclick="toggleMute()">&#128263;</div>
           </div>
-          <div class="reel-viewport" id="reelViewport" ondblclick="handleDoubleTap(event)"></div>
-          <div class="reel-nav-arrows">
-            <button class="reel-nav-btn" onclick="scrollReel(-1)">▲</button>
-            <button class="reel-nav-btn" onclick="scrollReel(1)">▼</button>
+
+          <!-- THE SNAP SCROLL ENGINE -->
+          <div class="reel-viewport" id="reelViewport"></div>
+
+          <!-- Desktop navigation arrows -->
+          <div class="reel-arrows">
+            <button class="reel-arrow-btn" onclick="scrollReel(-1)">&#9650;</button>
+            <button class="reel-arrow-btn" onclick="scrollReel(1)">&#9660;</button>
           </div>
         </div>
 
-        <!-- ======= SELL SCREEN ======= -->
+        <!-- =================== SELL =================== -->
         <div class="screen" id="sell">
-          <div class="sell-screen-title">Sell Something</div>
-          <div class="sell-screen-sub">Record a 15-second video demo of your item and list it instantly in the right category.</div>
+          <div class="sell-title">Sell Something</div>
+          <div class="sell-sub">Record a 15-second video of your item and list it instantly.</div>
           <div class="sell-steps">
-            <div class="sell-step"><span class="sell-step-num">1</span><div class="sell-step-text"><h5>Record Video</h5><p>Show the item from all angles. Show it working.</p></div></div>
-            <div class="sell-step"><span class="sell-step-num">2</span><div class="sell-step-text"><h5>Choose Category</h5><p>AI auto-tags your listing to the right category.</p></div></div>
-            <div class="sell-step"><span class="sell-step-num">3</span><div class="sell-step-text"><h5>Set Price &amp; Go Live</h5><p>Add a price. Your reel goes live to nearby buyers instantly.</p></div></div>
+            <div class="sell-step"><span class="sell-num">1</span><div><h5>Record Video</h5><p>Show it from all angles. Show it working or being worn.</p></div></div>
+            <div class="sell-step"><span class="sell-num">2</span><div><h5>Choose Category</h5><p>AI auto-tags your listing and places it in the right feed.</p></div></div>
+            <div class="sell-step"><span class="sell-num">3</span><div><h5>Set Price &amp; Go Live</h5><p>Your reel is live to nearby buyers within seconds.</p></div></div>
           </div>
-          <button class="btn-primary" onclick="alert('📹 Camera access required — this works in the full app!')">📹 Start Recording</button>
-          <button class="btn-secondary" onclick="navTo('home')">← Back to Home</button>
+          <button class="btn-primary" onclick="alert('Camera access: works in the full native app!')">&#128249; Start Recording</button>
+          <button class="btn-secondary" onclick="navTo('home')">&#8592; Back to Home</button>
         </div>
 
-        <!-- ======= INBOX SCREEN ======= -->
+        <!-- =================== INBOX =================== -->
         <div class="screen" id="inbox">
-          <div class="empty-icon">💬</div>
+          <div class="empty-ico">&#128172;</div>
           <div class="empty-title">No Messages Yet</div>
-          <div class="empty-sub">All buyer-seller negotiations happen through instant bids — no endless chatting required.</div>
-          <button class="btn-secondary" onclick="navTo('home')" style="margin-top:8px">← Browse Listings</button>
+          <div class="empty-sub">All negotiations happen through instant bids. No chat ping-pong required.</div>
+          <button class="btn-secondary" style="margin-top:8px" onclick="navTo('home')">&#8592; Browse Listings</button>
         </div>
 
-        <!-- ======= PROFILE SCREEN ======= -->
+        <!-- =================== PROFILE =================== -->
         <div class="screen" id="profile">
-          <div class="empty-icon">👤</div>
+          <div class="empty-ico">&#128100;</div>
           <div class="empty-title">Demo Profile</div>
-          <div class="empty-sub">Completed purchases, trust score, response speed rating, and seller verification badges all live here.</div>
-          <button class="btn-secondary" onclick="navTo('home')" style="margin-top:8px">← Go Back</button>
+          <div class="empty-sub">Completed purchases, trust score, response speed rating, and verification badges all live here.</div>
+          <button class="btn-secondary" style="margin-top:8px" onclick="navTo('home')">&#8592; Go Back</button>
         </div>
 
         <!-- MODAL BACKDROP -->
@@ -472,26 +645,26 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
           <div class="modal-drag"></div>
           <div class="modal-head">
             <h3>Make Direct Offer</h3>
-            <button class="modal-close" onclick="closeModals()">×</button>
+            <button class="modal-close" onclick="closeModals()">&#x2715;</button>
           </div>
           <div class="modal-body">
-            <div class="modal-product-row">
+            <div class="modal-product">
               <img id="offerImg" src="" alt="Product"/>
               <div>
                 <h4 id="offerTitle">Item</h4>
-                <p>Listed at: <strong id="offerListPrice">$0</strong></p>
+                <p>Listed at <strong id="offerListPrice">$0</strong></p>
               </div>
             </div>
-            <div class="offer-slider-wrap">
-              <label>Your Offer: <strong id="offerValDisplay">$0</strong></label>
+            <div class="slider-wrap">
+              <div class="slider-label"><span>Your Offer</span><strong id="offerValDisplay">$0</strong></div>
               <input type="range" id="offerSlider" min="1" max="100" value="80" oninput="syncOffer(this.value)"/>
               <div class="range-labels"><span id="sliderMin">$0</span><span id="sliderMax">$0</span></div>
             </div>
             <div class="info-box">
-              <span class="info-box-icon">🛡️</span>
-              <p><strong>Pre-Authorized Escrow:</strong> Your offer locks funds without charging you. If seller accepts on WhatsApp, sale is instant. No messaging needed.</p>
+              <span class="info-box-icon">&#128737;</span>
+              <p><strong>Escrow Pre-Authorization:</strong> Your offer locks funds without charging you. If the seller accepts on WhatsApp, the sale finalises instantly &mdash; no messaging needed.</p>
             </div>
-            <button class="btn-primary" onclick="submitOffer()">💳 Pre-Authorize &amp; Bid</button>
+            <button class="btn-primary" onclick="submitOffer()">&#128179; Pre-Authorize &amp; Bid</button>
           </div>
         </div>
 
@@ -499,50 +672,50 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
         <div class="modal-sheet" id="checkoutModal">
           <div class="modal-drag"></div>
           <div class="modal-head">
-            <h3>Secure Checkout (Escrow)</h3>
-            <button class="modal-close" onclick="closeModals()">×</button>
+            <h3>Secure Checkout</h3>
+            <button class="modal-close" onclick="closeModals()">&#x2715;</button>
           </div>
           <div class="modal-body">
             <div>
-              <div class="checkout-line"><span id="checkTitle">Product</span><span id="checkPrice">$0</span></div>
-              <div class="checkout-line"><span>Buyer Protection (Escrow)</span><span class="green">$1.99</span></div>
-              <div class="checkout-line total"><span>Total</span><span id="checkTotal">$0</span></div>
+              <div class="checkout-row"><span id="checkTitle">Product</span><span id="checkPrice">$0</span></div>
+              <div class="checkout-row"><span>Buyer Protection (Escrow)</span><span class="price-green">$1.99</span></div>
+              <div class="checkout-row total-row"><span>Total</span><span id="checkTotal">$0</span></div>
             </div>
             <div class="mock-card">
-              <div class="mock-card-top"><span>Saved Card</span><span>💳</span></div>
-              <div class="mock-card-num">•••• •••• •••• 4242</div>
+              <div class="mock-card-top"><span>Saved Card</span><span>&#128179;</span></div>
+              <div class="mock-card-num">&bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; 4242</div>
               <div class="mock-card-bot"><span>Demo User</span><span>12/29</span></div>
             </div>
             <div class="info-box">
-              <span class="info-box-icon">🔒</span>
-              <p>Funds held by ReelDeal. Released to seller 48 hours after delivery is confirmed.</p>
+              <span class="info-box-icon">&#128274;</span>
+              <p>Funds held securely by ReelDeal. Released to the seller 48 hours after delivery is confirmed.</p>
             </div>
-            <button class="btn-primary" onclick="confirmBuy()">✅ Confirm Escrow Order</button>
+            <button class="btn-primary" onclick="confirmBuy()">&#10003; Confirm Escrow Order</button>
           </div>
         </div>
 
-        <!-- WHATSAPP TOAST (Seller simulator) -->
+        <!-- WHATSAPP TOAST -->
         <div class="wa-toast" id="waToast">
-          <div class="wa-toast-head">
-            <div class="wa-toast-logo">W</div>
-            <span class="wa-toast-title">ReelDeal Bot → You (Seller)</span>
-            <span class="wa-toast-time">Just now</span>
+          <div class="wa-head">
+            <div class="wa-logo">W</div>
+            <span class="wa-title">ReelDeal Bot &rarr; You (Seller)</span>
+            <span class="wa-time">Just now</span>
           </div>
-          <p class="wa-toast-msg" id="waMsg">New offer received!</p>
-          <div class="wa-toast-btns">
-            <button class="wa-btn wa-btn-decline" onclick="waAction('decline')">Decline</button>
-            <button class="wa-btn wa-btn-accept" onclick="waAction('accept')">✓ Accept Offer</button>
+          <p class="wa-msg" id="waMsg">New offer received!</p>
+          <div class="wa-btns">
+            <button class="wa-btn wa-decline" onclick="waAction('decline')">Decline</button>
+            <button class="wa-btn wa-accept" onclick="waAction('accept')">&#10003; Accept Offer</button>
           </div>
         </div>
 
         <!-- SUCCESS OVERLAY -->
         <div class="success-overlay" id="successOverlay">
           <div class="success-card">
-            <div class="success-icon" id="successIcon">✅</div>
+            <div class="success-icon" id="successIcon">&#9989;</div>
             <h3 id="successTitle">Offer Sent!</h3>
-            <p id="successMsg">Your offer has been pre-authorized and sent to the seller via WhatsApp.</p>
-            <div class="success-sim" id="successSim"><span class="sim-dot"></span> Simulating seller response…</div>
-            <button class="btn-secondary" onclick="closeSuccessOverlay()" style="font-size:.78rem;padding:8px">Keep Browsing</button>
+            <p id="successMsg">Your offer is pre-authorized and sent to the seller via WhatsApp.</p>
+            <div class="success-sim" id="successSim"><span class="sim-dot"></span>&nbsp;Simulating seller response&hellip;</div>
+            <button class="btn-secondary" style="font-size:.75rem;padding:9px" onclick="closeSuccess()">Keep Browsing</button>
           </div>
         </div>
 
@@ -550,11 +723,11 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 
       <!-- NAV BAR -->
       <nav class="nav-bar">
-        <button class="nav-item active" id="nav-home" onclick="navTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
-        <button class="nav-item" id="nav-reels-btn" onclick="navTo('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Explore</span></button>
-        <button class="nav-item nav-sell" id="nav-sell" onclick="navTo('sell')"><div class="sell-circle">＋</div><span class="nav-label">Sell</span></button>
-        <button class="nav-item" id="nav-inbox" onclick="navTo('inbox')"><span class="nav-icon">💬</span><span class="nav-label">Inbox</span></button>
-        <button class="nav-item" id="nav-profile" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+        <button class="nav-item active" id="nav-home" onclick="navTo('home')"><span class="nav-icon">&#127968;</span><span class="nav-label">Home</span></button>
+        <button class="nav-item" id="nav-reels" onclick="openCategory(currentCat||'tech')"><span class="nav-icon">&#128249;</span><span class="nav-label">Explore</span></button>
+        <button class="nav-item nav-sell-btn" id="nav-sell" onclick="navTo('sell')"><div class="sell-plus">+</div><span class="nav-label">Sell</span></button>
+        <button class="nav-item" id="nav-inbox" onclick="navTo('inbox')"><span class="nav-icon">&#128172;</span><span class="nav-label">Inbox</span></button>
+        <button class="nav-item" id="nav-profile" onclick="navTo('profile')"><span class="nav-icon">&#128100;</span><span class="nav-label">Profile</span></button>
       </nav>
 
     </div><!-- /phone -->
@@ -563,215 +736,387 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 </div><!-- /page -->
 
 <script>
-/* =========================================================
-   ReelDeal – Complete Application Logic
-   ========================================================= */
+/* ==========================================================
+   REELDEAL v2  -  Application Core
+   TikTok-grade reel engine + interaction logic
+   ========================================================== */
 
-/* ---------- DATA ---------- */
+/* ──────────────────── DATA ──────────────────── */
 const CATS = [
-  {id:'tech',     label:'Tech',      icon:'💻', color:'#448aff'},
-  {id:'fashion',  label:'Fashion',   icon:'👟', color:'#ff4081'},
-  {id:'home',     label:'Home',      icon:'🍳', color:'#00e676'},
-  {id:'auto',     label:'Auto',      icon:'🚗', color:'#ff6d00'},
-  {id:'books',    label:'Books',     icon:'📚', color:'#7c4dff'},
-  {id:'sports',   label:'Sports',    icon:'🏋️', color:'#00bcd4'},
+  {id:'tech',    label:'Tech',      icon:'&#128187;', color:'#448aff', glow:'rgba(68,138,255,.12)'},
+  {id:'fashion', label:'Fashion',   icon:'&#128249;', color:'#ff4081', glow:'rgba(255,64,129,.12)'},
+  {id:'home',    label:'Home',      icon:'&#127859;', color:'#00e676', glow:'rgba(0,230,118,.10)'},
+  {id:'auto',    label:'Auto',      icon:'&#128663;', color:'#ff6d00', glow:'rgba(255,109,0,.12)'},
+  {id:'books',   label:'Books',     icon:'&#128218;', color:'#7c4dff', glow:'rgba(124,77,255,.12)'},
+  {id:'sports',  label:'Sports',    icon:'&#127947;', color:'#00bcd4', glow:'rgba(0,188,212,.10)'},
 ];
 
-const REELS = {
+/*
+  Free short videos from Google's public GTV sample bucket
+  These are reliable, fast, and require no API keys.
+*/
+const FREE_VIDEOS = [
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4',
+  'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4',
+];
+
+const REELS_DATA = {
   tech:[
-    {title:'Ducky One Keyboard',price:45,condition:'Good',seller:'@mech_hoarder',img:'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80&fit=crop',likes:'1.2k',views:'8.3k',bg:'#1a2a3a'},
-    {title:'iPhone X 128GB',price:250,condition:'Great',seller:'@gadget_store',img:'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&q=80&fit=crop',likes:'3.4k',views:'22k',bg:'#1a1a2a'},
-    {title:'Sony WH-1000XM4',price:140,condition:'Like New',seller:'@audiogeek99',img:'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&q=80&fit=crop',likes:'2.1k',views:'14k',bg:'#0a1a1a'},
+    {title:'Ducky One 2 Mechanical Keyboard',price:45,condition:'Good',seller:'@mech_hoarder',img:'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=75&fit=crop',likes:'1.2k',views:'8.3k',desc:'Cherry MX Browns, barely used. Minor shine on keycaps.'},
+    {title:'iPhone X 128GB Space Grey',price:250,condition:'Great',seller:'@gadget_store',img:'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&q=75&fit=crop',likes:'3.4k',views:'22k',desc:'Battery at 87%. No scratches. Original box included.'},
+    {title:'Sony WH-1000XM4 Headphones',price:140,condition:'Like New',seller:'@audiogeek99',img:'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&q=75&fit=crop',likes:'2.1k',views:'14k',desc:'Used twice. All accessories included. ANC works perfectly.'},
   ],
   fashion:[
-    {title:'Air Jordan 1 Retro',price:120,condition:'Good',seller:'@kix_reseller',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&fit=crop',likes:'5.6k',views:'34k',bg:'#2a1a1a'},
-    {title:'Levi\'s 501 Jeans',price:35,condition:'Used',seller:'@thrift_vibes',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80&fit=crop',likes:'890',views:'5.1k',bg:'#1a1a2a'},
-    {title:'Vintage Denim Jacket',price:55,condition:'Good',seller:'@vintage_closet',img:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=80&fit=crop',likes:'2.3k',views:'11k',bg:'#1a1a0a'},
+    {title:'Air Jordan 1 Retro High OG',price:120,condition:'Good',seller:'@kix_reseller',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=75&fit=crop',likes:'5.6k',views:'34k',desc:'Size US 10. Soles clean. No yellowing. Auth check available.'},
+    {title:"Levi's 501 Original Jeans",price:35,condition:'Used',seller:'@thrift_vibes',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=75&fit=crop',likes:'890',views:'5.1k',desc:'W32 L32. Some fading on thighs. Washed and clean.'},
+    {title:'Vintage Levi Denim Jacket',price:55,condition:'Good',seller:'@vintage_closet',img:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=75&fit=crop',likes:'2.3k',views:'11k',desc:'Size M. 1990s made. All buttons intact. Some character wear.'},
   ],
   home:[
-    {title:'KitchenAid Stand Mixer',price:180,condition:'Great',seller:'@kitchen_deals',img:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80&fit=crop',likes:'1.1k',views:'6.8k',bg:'#2a1a0a'},
-    {title:'Dyson V8 Vacuum',price:200,condition:'Like New',seller:'@home_refresh',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',likes:'780',views:'4.2k',bg:'#0a1a2a'},
+    {title:'KitchenAid Stand Mixer 4.5qt',price:180,condition:'Great',seller:'@kitchen_deals',img:'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=75&fit=crop',likes:'1.1k',views:'6.8k',desc:'Empire Red. All 3 attachments included. Works perfectly.'},
+    {title:'Dyson V8 Absolute Cordless',price:200,condition:'Like New',seller:'@home_refresh',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75&fit=crop',likes:'780',views:'4.2k',desc:'Battery holds 35min. All heads included. No suction loss.'},
   ],
   auto:[
-    {title:'Shimano Bike Gear Set',price:75,condition:'Good',seller:'@cycleparts',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',likes:'430',views:'2.8k',bg:'#1a0a0a'},
+    {title:'Shimano Tiagra Gear Set',price:75,condition:'Good',seller:'@cycleparts',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=75&fit=crop',likes:'430',views:'2.8k',desc:'Road bike 10-speed. Minor cable wear. Ships well-packed.'},
   ],
   books:[
-    {title:'IELTS Prep Bundle (8 books)',price:20,condition:'Used',seller:'@studystack',img:'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80&fit=crop',likes:'320',views:'1.9k',bg:'#1a1a0a'},
+    {title:'IELTS Prep Bundle — 8 Books',price:20,condition:'Used',seller:'@studystack',img:'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=75&fit=crop',likes:'320',views:'1.9k',desc:'Cambridge + Barrons. Highlighted passages. Band 7.5 achieved.'},
   ],
   sports:[
-    {title:'Adjustable Dumbbells 20kg',price:90,condition:'Good',seller:'@fitgear_hub',img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80&fit=crop',likes:'670',views:'3.4k',bg:'#0a1a0a'},
+    {title:'Bowflex Adjustable Dumbbells 20kg',price:90,condition:'Good',seller:'@fitgear_hub',img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=75&fit=crop',likes:'670',views:'3.4k',desc:'Selectable 5-20kg. One dial per dumbbell. No cracks.'},
   ],
 };
 
-/* ---------- STATE ---------- */
-let currentScreen = 'home';
-let currentCat = 'tech';
-let currentReelIdx = 0;
-let offerContext = null;
-let isMuted = true;
+/* ──────────────────── STATE ──────────────────── */
+let currentCat  = 'tech';
+let currentIdx  = 0;
+let isMuted     = true;
+let offerCtx    = null;
+let reelObserver = null;
 
-/* ---------- NAV ---------- */
+/* ──────────────────── NAVIGATION ──────────────────── */
 function navTo(screen){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById(screen).classList.add('active');
-  const nb = document.getElementById('nav-'+screen)||document.getElementById('nav-reels-btn');
-  if(nb) nb.classList.add('active');
-  currentScreen=screen;
+  const s=document.getElementById(screen);
+  const b=document.getElementById('nav-'+screen);
+  if(s) s.classList.add('active');
+  if(b) b.classList.add('active');
+  // Pause all videos when leaving reels
+  if(screen!=='reels'){
+    document.querySelectorAll('.reel-video').forEach(v=>{try{v.pause()}catch(e){}});
+  }
 }
 
 function openCategory(catId){
-  currentCat=catId;
-  const cat=CATS.find(c=>c.id===catId)||CATS[0];
-  document.getElementById('reelsCatTitle').textContent=cat.icon+' '+cat.label;
-  buildReels(catId);
+  currentCat = catId||'tech';
+  const cat  = CATS.find(c=>c.id===currentCat)||CATS[0];
+  document.getElementById('reelsCatLabel').innerHTML = cat.icon+'&nbsp;'+cat.label;
+  buildReels(currentCat);
   navTo('reels');
+  document.getElementById('nav-reels').classList.add('active');
 }
 
-/* ---------- CATEGORIES ---------- */
+/* ──────────────────── CATEGORIES ──────────────────── */
 function buildCategories(){
   const grid=document.getElementById('catGrid');
+  grid.innerHTML='';
   CATS.forEach(c=>{
     const el=document.createElement('div');
     el.className='cat-item';
-    el.style.setProperty('--cat-color',c.color);
-    el.innerHTML=`<div class="cat-icon-wrap" style="background:${c.color}22">${c.icon}</div><span class="cat-label">${c.label}</span>`;
-    el.onclick=()=>openCategory(c.id);
+    el.style.cssText='--cat-glow:'+c.glow;
+    el.innerHTML=`<div class="cat-icon-wrap" style="background:${c.glow}">${c.icon}</div><span class="cat-label">${c.label}</span>`;
+    el.addEventListener('click',()=>openCategory(c.id));
     grid.appendChild(el);
   });
 }
 
-/* ---------- TRENDING SCROLL ---------- */
 function buildTrending(){
-  const scrl=document.getElementById('trendingScroll');
-  const all=Object.values(REELS).flat().sort(()=>Math.random()-.5).slice(0,6);
-  all.forEach((r,i)=>{
-    const catId=Object.keys(REELS).find(k=>REELS[k].includes(r))||'tech';
+  const scrl=document.getElementById('trendScroll');
+  scrl.innerHTML='';
+  const flat=Object.entries(REELS_DATA).flatMap(([cat,arr])=>arr.map(r=>({...r,cat})));
+  const picks=flat.sort(()=>Math.random()-.5).slice(0,8);
+  picks.forEach(r=>{
     const el=document.createElement('div');
     el.className='trend-card';
     el.innerHTML=`
-      <div class="trend-thumb" style="background:${r.bg}">
+      <div class="trend-thumb">
         <img src="${r.img}" alt="${r.title}" loading="lazy"/>
-        <div class="trend-play"><span>▶</span></div>
+        <div class="trend-play-btn"><div class="play-circle">&#9654;</div></div>
       </div>
       <div class="trend-info">
         <span class="trend-title">${r.title}</span>
         <span class="trend-price">$${r.price}</span>
-        <span class="trend-seller">👁️ ${r.views}</span>
+        <span class="trend-views">&#128064; ${r.views}</span>
       </div>`;
-    el.onclick=()=>openCategory(catId);
+    el.addEventListener('click',()=>openCategory(r.cat));
     scrl.appendChild(el);
   });
 }
 
-/* ---------- REELS ---------- */
+/* ──────────────────── REEL ENGINE ──────────────────── */
+/*
+  Core approach identical to TikTok web:
+  1. Each .reel-slide is 100% viewport height inside a scroll-snap container
+  2. scroll-snap-stop:always prevents multi-slide skipping on fast swipes
+  3. IntersectionObserver fires at 80% visibility to auto-play/pause video
+  4. Videos use autoplay + muted + playsinline (required for mobile autoplay)
+  5. Progress bar animates from video.currentTime / video.duration via rAF
+  6. will-change:transform puts each slide on its own GPU compositor layer
+*/
 function buildReels(catId){
-  const vp=document.getElementById('reelViewport');
+  // Disconnect old observer
+  if(reelObserver){ reelObserver.disconnect(); reelObserver=null; }
+
+  const vp   = document.getElementById('reelViewport');
+  const items = REELS_DATA[catId]||REELS_DATA.tech;
+  currentIdx  = 0;
   vp.innerHTML='';
-  currentReelIdx=0;
-  const items=REELS[catId]||REELS.tech;
+
   items.forEach((r,idx)=>{
-    const slide=document.createElement('div');
+    const videoSrc = FREE_VIDEOS[idx % FREE_VIDEOS.length];
+    const slide    = document.createElement('div');
     slide.className='reel-slide';
-    slide.dataset.idx=idx;
+    slide.dataset.idx = idx;
     slide.innerHTML=`
-      <img class="reel-img-bg" src="${r.img}" alt="${r.title}" loading="lazy"/>
-      <div class="reel-gradient"></div>
-      <div class="reel-price-tag">$${r.price}</div>
+      <!-- Loading skeleton (shows until video ready) -->
+      <div class="reel-skeleton"></div>
+      <!-- Fallback image while video loads -->
+      <img class="reel-img-fallback" src="${r.img}" alt="${r.title}" loading="${idx===0?'eager':'lazy'}"/>
+      <!-- THE VIDEO — same attrs TikTok uses -->
+      <video class="reel-video"
+        src="${videoSrc}"
+        ${idx===0?'preload="auto"':'preload="none"'}
+        muted playsinline loop
+        style="opacity:0"
+      ></video>
+      <!-- Progress bar (TikTok-style) -->
+      <div class="reel-progress-bar"><div class="reel-progress-fill" id="prog-${idx}"></div></div>
+      <!-- Gradient overlays -->
+      <div class="reel-gradient-top"></div>
+      <div class="reel-gradient-bot"></div>
+      <!-- Price badge -->
+      <div class="reel-price-badge">$${r.price}</div>
+      <!-- Condition badge -->
+      <div class="reel-cond-badge">${r.condition}</div>
+      <!-- Sidebar actions -->
       <div class="reel-sidebar">
-        <div class="reel-action" onclick="toggleLike(this)">
-          <div class="reel-action-btn">❤️</div>
+        <div class="reel-action" data-action="like" onclick="handleLike(this)">
+          <div class="reel-action-btn">&#10084;</div>
           <span class="reel-action-count">${r.likes}</span>
         </div>
-        <div class="reel-action">
-          <div class="reel-action-btn">💬</div>
+        <div class="reel-action" onclick="handleComment()">
+          <div class="reel-action-btn">&#128172;</div>
           <span class="reel-action-count">42</span>
         </div>
-        <div class="reel-action">
-          <div class="reel-action-btn">↗️</div>
+        <div class="reel-action" onclick="handleShare()">
+          <div class="reel-action-btn">&#8593;&#8599;</div>
           <span class="reel-action-count">Share</span>
         </div>
         <div class="reel-action" onclick="openOffer(${idx})">
-          <div class="reel-action-btn">💰</div>
+          <div class="reel-action-btn">&#128176;</div>
           <span class="reel-action-count">Bid</span>
         </div>
       </div>
+      <!-- Bottom info -->
       <div class="reel-info">
         <div class="reel-seller">
-          <div class="seller-avatar"><img src="${r.img}" alt="seller"/></div>
+          <div class="seller-av"><img src="${r.img}" alt="seller" loading="lazy"/></div>
           <span class="seller-name">${r.seller}</span>
-          <span class="seller-badge">✓ Verified</span>
+          <span class="seller-verified">&#10003; Verified</span>
         </div>
         <div class="reel-title">${r.title}</div>
-        <div class="reel-meta">
-          <span class="reel-condition">📦 ${r.condition}</span>
-          <span>👁️ ${r.views} views</span>
+        <div class="reel-desc">${r.desc}</div>
+        <div class="reel-tags">
+          <span class="reel-tag accent-tag">#${catId}</span>
+          <span class="reel-tag">#secondhand</span>
+          <span class="reel-tag">#${r.condition.toLowerCase().replace(' ','-')}</span>
         </div>
-        <div class="reel-actions-row">
-          <button class="btn-offer" onclick="openOffer(${idx})">💰 Make Offer</button>
-          <button class="btn-buy" onclick="openCheckout(${idx})">🛒 Buy Now</button>
+        <div class="reel-cta">
+          <button class="btn-offer" onclick="openOffer(${idx})">&#128176; Make Offer</button>
+          <button class="btn-buy"   onclick="openCheckout(${idx})">&#128722; Buy Now</button>
         </div>
-      </div>`;
+      </div>
+      <!-- Swipe hint (first reel only) -->
+      ${idx===0?'<div class="swipe-hint">Swipe up for next reel &#9660;</div>':''}
+    `;
+
+    // Wire up video events
+    const video = slide.querySelector('.reel-video');
+
+    video.addEventListener('canplay',()=>{
+      slide.classList.add('video-ready');
+      video.style.opacity='1';
+    });
+
+    // Tap to play/pause (TikTok behavior)
+    slide.addEventListener('click',e=>{
+      if(e.target.closest('button,.reel-action')||e.target.closest('.reel-sidebar')) return;
+      if(video.paused){ video.play(); }
+      else { video.pause(); }
+    });
+
+    // Double-tap heart (TikTok behavior)
+    let lastTap=0;
+    slide.addEventListener('touchend',e=>{
+      const now=Date.now();
+      if(now-lastTap<350 && !e.target.closest('button,.reel-action')){
+        triggerHeartBurst(e,slide);
+        handleLike(slide.querySelector('[data-action="like"]'));
+      }
+      lastTap=now;
+    });
+
     vp.appendChild(slide);
   });
-  // Observe visible slides for auto-context
-  observeReels();
+
+  // ── IntersectionObserver: the exact same API Instagram Reels uses ──
+  reelObserver = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      const slide = entry.target;
+      const video = slide.querySelector('.reel-video');
+      const idx2  = parseInt(slide.dataset.idx);
+      if(entry.intersectionRatio >= 0.8){
+        // This slide is dominant in viewport
+        currentIdx = idx2;
+        // Preload video if not yet
+        if(video.getAttribute('preload')==='none'){
+          video.setAttribute('preload','auto');
+          video.load();
+        }
+        // Play
+        if(!isMuted) video.muted=false;
+        const playProm = video.play();
+        if(playProm!==undefined){
+          playProm.catch(()=>{ video.muted=true; video.play(); });
+        }
+        // Animate progress bar
+        startProgressBar(video, idx2);
+        // Preload NEXT slide's video
+        const nextSlide=document.querySelector(`.reel-slide[data-idx="${idx2+1}"]`);
+        if(nextSlide){
+          const nextVid=nextSlide.querySelector('.reel-video');
+          if(nextVid && nextVid.getAttribute('preload')==='none'){
+            nextVid.setAttribute('preload','auto');
+            nextVid.load();
+          }
+        }
+      } else {
+        // Out of view — pause to save battery/data
+        try{ video.pause(); }catch(e){}
+      }
+    });
+  },{
+    root: document.getElementById('reelViewport'),
+    threshold:[0.8]
+  });
+
+  document.querySelectorAll('.reel-slide').forEach(s=>reelObserver.observe(s));
+
+  // Auto-play first reel immediately
+  setTimeout(()=>{
+    const first=document.querySelector('.reel-slide[data-idx="0"]');
+    if(first){
+      const v=first.querySelector('.reel-video');
+      v.setAttribute('preload','auto');
+      const p=v.play();
+      if(p) p.catch(()=>{ v.muted=true; v.play(); });
+    }
+  },300);
 }
 
-function observeReels(){
-  const vp=document.getElementById('reelViewport');
-  const slides=vp.querySelectorAll('.reel-slide');
-  const obs=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{if(e.intersectionRatio>.5)currentReelIdx=parseInt(e.target.dataset.idx)});
-  },{root:vp,threshold:.5});
-  slides.forEach(s=>obs.observe(s));
+/* Progress bar animation (requestAnimationFrame loop — same as YouTube Shorts) */
+const progressRafs={};
+function startProgressBar(video,idx){
+  if(progressRafs[idx]) cancelAnimationFrame(progressRafs[idx]);
+  const bar=document.getElementById('prog-'+idx);
+  if(!bar) return;
+  function tick(){
+    if(!video.paused && video.duration){
+      bar.style.width=((video.currentTime/video.duration)*100)+'%';
+    }
+    progressRafs[idx]=requestAnimationFrame(tick);
+  }
+  progressRafs[idx]=requestAnimationFrame(tick);
 }
 
+/* Keyboard + arrow button scroll */
 function scrollReel(dir){
   const vp=document.getElementById('reelViewport');
   const slides=vp.querySelectorAll('.reel-slide');
-  const newIdx=Math.max(0,Math.min(slides.length-1,currentReelIdx+dir));
-  slides[newIdx].scrollIntoView({behavior:'smooth'});
-  currentReelIdx=newIdx;
+  const newIdx=Math.max(0,Math.min(slides.length-1,currentIdx+dir));
+  slides[newIdx].scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function handleDoubleTap(e){
+// Keyboard arrows work too
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('reels').classList.contains('active')){
+    if(e.key==='ArrowDown') scrollReel(1);
+    if(e.key==='ArrowUp')   scrollReel(-1);
+  }
+});
+
+/* ──────────────────── INTERACTIONS ──────────────────── */
+function handleLike(el){
+  el.classList.toggle('liked');
+  const btn=el.querySelector('.reel-action-btn');
+  btn.style.transform='scale(1.5)';
+  btn.style.transition='transform .15s cubic-bezier(.4,0,.2,1)';
+  setTimeout(()=>{btn.style.transform='';},200);
+}
+
+function handleComment(){
+  alert('Comments: tap any reel to comment. Feature live in full app.');
+}
+
+function handleShare(){
+  if(navigator.share){
+    navigator.share({title:'ReelDeal',url:window.location.href}).catch(()=>{});
+  } else {
+    navigator.clipboard&&navigator.clipboard.writeText(window.location.href);
+    alert('Link copied! Share it with friends.');
+  }
+}
+
+function triggerHeartBurst(e,slide){
   const heart=document.createElement('div');
   heart.className='heart-burst';
-  heart.textContent='❤️';
-  heart.style.left=(e.offsetX-20)+'px';
-  heart.style.top=(e.offsetY-20)+'px';
-  e.currentTarget.appendChild(heart);
+  heart.textContent='&#10084;';
+  const rect=slide.getBoundingClientRect();
+  const x=(e.changedTouches?e.changedTouches[0].clientX:e.clientX)-rect.left;
+  const y=(e.changedTouches?e.changedTouches[0].clientY:e.clientY)-rect.top;
+  heart.style.left=(x-20)+'px';
+  heart.style.top=(y-20)+'px';
+  slide.appendChild(heart);
   setTimeout(()=>heart.remove(),800);
-}
-
-function toggleLike(el){
-  const btn=el.querySelector('.reel-action-btn');
-  btn.style.transform='scale(1.4)';
-  setTimeout(()=>btn.style.transform='',200);
 }
 
 function toggleMute(){
   isMuted=!isMuted;
-  document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔊';
+  document.getElementById('muteBtn').innerHTML=isMuted?'&#128263;':'&#128264;';
+  document.querySelectorAll('.reel-video').forEach(v=>{ v.muted=isMuted; });
 }
 
-/* ---------- OFFER MODAL ---------- */
+/* ──────────────────── OFFER MODAL ──────────────────── */
 function openOffer(idx){
-  const items=REELS[currentCat]||REELS.tech;
+  const items=REELS_DATA[currentCat]||REELS_DATA.tech;
   const r=items[idx];
-  offerContext={idx,r};
+  if(!r) return;
+  offerCtx={idx,r};
   document.getElementById('offerImg').src=r.img;
   document.getElementById('offerTitle').textContent=r.title;
   document.getElementById('offerListPrice').textContent='$'+r.price;
   const min=Math.max(1,Math.round(r.price*.5));
   const max=r.price;
   const def=Math.round(r.price*.85);
-  const slider=document.getElementById('offerSlider');
-  slider.min=min; slider.max=max; slider.value=def;
+  const sl=document.getElementById('offerSlider');
+  sl.min=min; sl.max=max; sl.value=def;
   document.getElementById('sliderMin').textContent='$'+min;
   document.getElementById('sliderMax').textContent='$'+max;
-  document.getElementById('offerValDisplay').textContent='$'+def;
+  syncOffer(def);
   openModal('offerModal');
 }
 
@@ -780,27 +1125,28 @@ function syncOffer(v){
 }
 
 function submitOffer(){
-  if(!offerContext)return;
+  if(!offerCtx) return;
   const amount=document.getElementById('offerSlider').value;
-  const r=offerContext.r;
+  const r=offerCtx.r;
   closeModals();
-  // Show success overlay for buyer
-  document.getElementById('successTitle').textContent='Offer Sent! 🎉';
-  document.getElementById('successMsg').textContent=`Your $${amount} offer on "${r.title}" is pre-authorized. Notifying seller via WhatsApp now…`;
+  // Show buyer success overlay
+  document.getElementById('successTitle').textContent='Offer Sent! &#127881;';
+  document.getElementById('successMsg').textContent=`Your $${amount} offer on "${r.title}" is pre-authorized. Notifying seller via WhatsApp…`;
   document.getElementById('successSim').style.display='flex';
   document.getElementById('successOverlay').classList.add('show');
-  // Show WA toast (seller view simulation) after 1.2s
+  // Simulate seller receiving WA notification after 1.4s
   setTimeout(()=>{
-    document.getElementById('waMsg').textContent=`🛒 New bid! Buyer offers $${amount} for "${r.title}". Your listing price: $${r.price}.`;
+    document.getElementById('waMsg').textContent=`New bid! Buyer offers $${amount} for your "${r.title}" (listed: $${r.price}).`;
     document.getElementById('waToast').classList.add('show');
-  },1200);
+  },1400);
 }
 
-/* ---------- CHECKOUT MODAL ---------- */
+/* ──────────────────── CHECKOUT MODAL ──────────────────── */
 function openCheckout(idx){
-  const items=REELS[currentCat]||REELS.tech;
+  const items=REELS_DATA[currentCat]||REELS_DATA.tech;
   const r=items[idx];
-  offerContext={idx,r};
+  if(!r) return;
+  offerCtx={idx,r};
   document.getElementById('checkTitle').textContent=r.title;
   document.getElementById('checkPrice').textContent='$'+r.price;
   document.getElementById('checkTotal').textContent='$'+(r.price+1.99).toFixed(2);
@@ -808,30 +1154,29 @@ function openCheckout(idx){
 }
 
 function confirmBuy(){
-  if(!offerContext)return;
-  const r=offerContext.r;
+  if(!offerCtx) return;
+  const r=offerCtx.r;
   closeModals();
-  document.getElementById('successTitle').textContent='Order Placed! ✅';
-  document.getElementById('successMsg').textContent=`Your purchase of "${r.title}" is secured in escrow. Seller has 24h to confirm shipping.`;
+  document.getElementById('successTitle').textContent='Order Placed! &#9989;';
+  document.getElementById('successMsg').textContent=`"${r.title}" secured in escrow. Seller has 24h to confirm shipping.`;
   document.getElementById('successSim').style.display='none';
   document.getElementById('successOverlay').classList.add('show');
 }
 
-/* ---------- WA TOAST ---------- */
+/* ──────────────────── WA TOAST ──────────────────── */
 function waAction(action){
-  const toast=document.getElementById('waToast');
-  toast.classList.remove('show');
+  document.getElementById('waToast').classList.remove('show');
   if(action==='accept'){
     setTimeout(()=>{
-      document.getElementById('successTitle').textContent='🎉 Seller Accepted!';
-      document.getElementById('successMsg').textContent='Payment moved to escrow. Seller will ship within 24h. Track in your Inbox.';
+      document.getElementById('successTitle').textContent='&#127881; Seller Accepted!';
+      document.getElementById('successMsg').textContent='Payment moved to escrow. Seller will ship within 24h.';
       document.getElementById('successSim').style.display='none';
       document.getElementById('successOverlay').classList.add('show');
     },300);
   }
 }
 
-/* ---------- MODAL HELPERS ---------- */
+/* ──────────────────── MODAL HELPERS ──────────────────── */
 function openModal(id){
   document.getElementById('modalBackdrop').classList.add('open');
   document.getElementById(id).classList.add('open');
@@ -840,20 +1185,19 @@ function closeModals(){
   document.getElementById('modalBackdrop').classList.remove('open');
   document.querySelectorAll('.modal-sheet').forEach(m=>m.classList.remove('open'));
 }
-function closeSuccessOverlay(){
+function closeSuccess(){
   document.getElementById('successOverlay').classList.remove('show');
   document.getElementById('waToast').classList.remove('show');
 }
 
-/* ---------- LIVE CLOCK ---------- */
+/* ──────────────────── CLOCK ──────────────────── */
 function updateClock(){
   const n=new Date();
-  const h=n.getHours().toString().padStart(2,'0');
-  const m=n.getMinutes().toString().padStart(2,'0');
-  document.getElementById('live-time').textContent=h+':'+m;
+  document.getElementById('liveTime').textContent=
+    n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');
 }
 
-/* ---------- INIT ---------- */
+/* ──────────────────── INIT ──────────────────── */
 function init(){
   updateClock();
   setInterval(updateClock,30000);
@@ -862,11 +1206,9 @@ function init(){
   buildReels('tech');
 }
 
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded',init);
-}else{
-  init();
-}
+document.readyState==='loading'
+  ? document.addEventListener('DOMContentLoaded',init)
+  : init();
 </script>
 </body>
 </html>
