@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ReelDeal – Buy & Sell Anything via Video</title>
+<meta name="description" content="ReelDeal – The first A-to-Z second-hand marketplace powered by short-form video reels. Shop by category, swipe, bid instantly."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+/* =====================================================
+   REELDEAL – Complete Design System
+   Self-contained: zero external CSS dependencies
+   ===================================================== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#06060a;
+  --surface:#0f0f18;
+  --surface2:#16161f;
+  --surface3:#1e1e2e;
+  --border:rgba(255,255,255,0.07);
+  --accent:#ff5c00;
+  --accent2:#ff8c42;
+  --accent-glow:rgba(255,92,0,0.25);
+  --green:#00e676;
+  --blue:#448aff;
+  --purple:#7c4dff;
+  --pink:#ff4081;
+  --text:#f0f0f8;
+  --text2:#9090a8;
+  --text3:#5a5a72;
+  --radius:16px;
+  --radius-sm:10px;
+  --shadow:0 4px 30px rgba(0,0,0,0.6);
+  font-family:'Outfit',system-ui,sans-serif;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);overflow:hidden}
+
+/* ---- PAGE LAYOUT ---- */
+.page{display:flex;height:100vh;align-items:center;justify-content:center;gap:60px;padding:20px;overflow:hidden}
+@media(max-width:900px){.page{flex-direction:column;gap:20px;justify-content:flex-start;overflow:auto}}
+
+/* ---- LEFT PITCH PANEL ---- */
+.pitch{flex:1;max-width:420px;display:flex;flex-direction:column;gap:24px}
+@media(max-width:900px){.pitch{max-width:360px;order:2}}
+.pitch-logo{font-size:2.2rem;font-weight:900;letter-spacing:-1px}
+.pitch-logo span{color:var(--accent)}
+.pitch-tag{display:inline-block;background:var(--accent-glow);color:var(--accent);border:1px solid var(--accent);border-radius:50px;font-size:.72rem;font-weight:600;letter-spacing:.08em;padding:4px 12px;text-transform:uppercase}
+.pitch h1{font-size:2rem;font-weight:800;line-height:1.2;letter-spacing:-.5px}
+.pitch h1 em{color:var(--accent);font-style:normal}
+.pitch p{color:var(--text2);font-size:.95rem;line-height:1.65}
+.pitch-cards{display:grid;gap:12px}
+.pitch-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;transition:border-color .2s}
+.pitch-card:hover{border-color:var(--accent)}
+.pitch-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem}
+.pitch-card h4{font-size:.85rem;font-weight:600;margin-bottom:2px}
+.pitch-card p{font-size:.78rem;color:var(--text2);line-height:1.5}
+.pitch-guide{background:var(--surface);border:1px dashed var(--border);border-radius:var(--radius-sm);padding:14px 16px}
+.pitch-guide h5{font-size:.78rem;font-weight:700;color:var(--accent2);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em}
+.pitch-guide ol{padding-left:16px;display:flex;flex-direction:column;gap:5px}
+.pitch-guide li{font-size:.78rem;color:var(--text2);line-height:1.5}
+.pitch-guide li strong{color:var(--text)}
+.pitch-stats{display:flex;gap:16px}
+.stat{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;flex:1}
+.stat-val{font-size:1.4rem;font-weight:800;color:var(--accent)}
+.stat-lbl{font-size:.7rem;color:var(--text2);margin-top:2px}
+
+/* ---- PHONE SHELL ---- */
+.phone-wrap{position:relative;flex-shrink:0}
+.phone{width:340px;height:680px;background:var(--surface);border-radius:40px;border:1px solid rgba(255,255,255,0.1);box-shadow:0 0 0 8px #0a0a12,0 30px 80px rgba(0,0,0,.8),0 0 60px var(--accent-glow);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.phone-notch{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:100px;height:24px;background:#0a0a12;border-radius:20px;z-index:100;display:flex;align-items:center;justify-content:center;gap:6px}
+.notch-cam{width:10px;height:10px;border-radius:50%;background:#1a1a2e;border:1.5px solid #222}
+.notch-pill{width:36px;height:6px;border-radius:4px;background:#1a1a2e}
+
+/* ---- STATUS BAR ---- */
+.status-bar{height:38px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 20px 8px;font-size:.7rem;font-weight:600;color:var(--text2);flex-shrink:0;z-index:10;position:relative}
+.status-right{display:flex;align-items:center;gap:5px}
+.battery{width:20px;height:10px;border:1.5px solid var(--text2);border-radius:3px;position:relative}
+.battery::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:3px;height:5px;background:var(--text2);border-radius:0 2px 2px 0}
+.battery-fill{width:65%;height:100%;background:var(--green);border-radius:1.5px}
+
+/* ---- SCREEN CONTAINER ---- */
+.screen-wrap{flex:1;position:relative;overflow:hidden}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;transition:opacity .25s,transform .25s;opacity:0;pointer-events:none;transform:translateY(20px)}
+.screen.active{opacity:1;pointer-events:auto;transform:none}
+.screen::-webkit-scrollbar{display:none}
+
+/* ---- HOME SCREEN ---- */
+#home{background:var(--bg);display:flex;flex-direction:column}
+.home-header{padding:16px 16px 8px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0}
+.location{display:flex;align-items:center;gap:6px}
+.loc-icon{color:var(--accent);font-size:.9rem}
+.loc-text{display:flex;flex-direction:column}
+.loc-label{font-size:.6rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em}
+.loc-val{font-size:.8rem;font-weight:600}
+.header-right{display:flex;gap:8px}
+.icon-btn{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;position:relative;transition:background .2s}
+.icon-btn:hover{background:var(--surface3)}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;border-radius:50%;background:var(--accent);border:1.5px solid var(--surface)}
+
+/* Search */
+.search-wrap{padding:8px 16px}
+.search-box{background:var(--surface2);border:1px solid var(--border);border-radius:50px;display:flex;align-items:center;gap:8px;padding:10px 14px;cursor:text;transition:border-color .2s}
+.search-box:hover{border-color:var(--accent)}
+.search-box input{background:none;border:none;outline:none;color:var(--text);font-family:inherit;font-size:.82rem;flex:1}
+.search-box input::placeholder{color:var(--text3)}
+.search-icon{color:var(--text3);font-size:.85rem;flex-shrink:0}
+.mic-icon{color:var(--accent);font-size:.85rem;cursor:pointer}
+
+/* Promo banner */
+.promo-banner{margin:8px 16px;border-radius:var(--radius);background:linear-gradient(135deg,#1a0a00,#2d1100);border:1px solid rgba(255,92,0,0.2);padding:16px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;cursor:pointer}
+.promo-banner::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(255,92,0,0.15),transparent)}
+.promo-info{z-index:1}
+.promo-tag-badge{display:inline-block;background:var(--accent);color:#fff;border-radius:4px;font-size:.58rem;font-weight:700;padding:2px 7px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.promo-info h2{font-size:.95rem;font-weight:700;line-height:1.2;margin-bottom:3px}
+.promo-info p{font-size:.7rem;color:var(--text2)}
+.promo-emoji{font-size:2.4rem;z-index:1}
+
+/* Section header */
+.sec-header{padding:14px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+.sec-header h3{font-size:.85rem;font-weight:700}
+.sec-see-all{font-size:.72rem;color:var(--accent);font-weight:600;cursor:pointer}
+
+/* Category grid */
+.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px}
+.cat-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.cat-item::before{content:'';position:absolute;inset:0;background:var(--cat-color,var(--accent));opacity:0;transition:opacity .2s;border-radius:inherit}
+.cat-item:hover::before{opacity:.08}
+.cat-item:active{transform:scale(.96)}
+.cat-icon-wrap{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.cat-label{font-size:.65rem;font-weight:600;text-align:center;line-height:1.3;color:var(--text2)}
+
+/* Trending carousel */
+.trending-scroll{display:flex;gap:10px;padding:0 16px 16px;overflow-x:auto;scroll-snap-type:x mandatory}
+.trending-scroll::-webkit-scrollbar{display:none}
+.trend-card{flex-shrink:0;width:130px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:transform .2s;scroll-snap-align:start}
+.trend-card:hover{transform:translateY(-3px)}
+.trend-thumb{position:relative;height:90px;overflow:hidden;background:var(--surface3)}
+.trend-thumb img{width:100%;height:100%;object-fit:cover}
+.trend-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.3)}
+.trend-play span{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#000}
+.trend-info{padding:8px}
+.trend-title{font-size:.68rem;font-weight:600;display:block;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.trend-price{font-size:.75rem;font-weight:700;color:var(--accent);display:block;margin-top:3px}
+.trend-seller{font-size:.6rem;color:var(--text3);display:flex;align-items:center;gap:3px;margin-top:2px}
+
+/* ---- REELS SCREEN ---- */
+#reels{background:#000;padding:0;display:flex;flex-direction:column}
+.reels-top{position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent)}
+.reels-back-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;padding:6px 12px;border-radius:50px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background .2s}
+.reels-back-btn:hover{background:rgba(255,255,255,0.25)}
+.reels-cat-title{font-size:.85rem;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.reels-mute-btn{background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:background .2s}
+.reels-mute-btn:hover{background:rgba(255,255,255,0.25)}
+
+.reel-viewport{flex:1;position:relative;overflow-y:scroll;scroll-snap-type:y mandatory}
+.reel-viewport::-webkit-scrollbar{display:none}
+.reel-slide{height:100%;scroll-snap-align:start;position:relative;flex-shrink:0;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.reel-slide video,.reel-slide .reel-img-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.reel-slide .reel-img-bg{filter:blur(0px);transition:filter .3s}
+.reel-gradient{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 50%,transparent 100%)}
+
+/* Sidebar actions */
+.reel-sidebar{position:absolute;right:10px;bottom:110px;display:flex;flex-direction:column;gap:14px;align-items:center;z-index:10}
+.reel-action{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;transition:transform .2s}
+.reel-action:hover{transform:scale(1.1)}
+.reel-action:active{transform:scale(.9)}
+.reel-action-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background .2s}
+.reel-action:hover .reel-action-btn{background:rgba(255,255,255,0.25)}
+.reel-action-count{font-size:.6rem;color:rgba(255,255,255,.8);font-weight:600}
+
+/* Reel info bar */
+.reel-info{position:absolute;bottom:0;left:0;right:56px;padding:12px 14px;z-index:10}
+.reel-seller{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.seller-avatar{width:32px;height:32px;border-radius:50%;border:2px solid var(--accent);overflow:hidden;flex-shrink:0}
+.seller-avatar img{width:100%;height:100%;object-fit:cover}
+.seller-name{font-size:.78rem;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+.seller-badge{font-size:.58rem;background:var(--green);color:#000;font-weight:700;border-radius:3px;padding:1px 5px}
+.reel-title{font-size:1rem;font-weight:700;line-height:1.25;margin-bottom:4px;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.reel-meta{font-size:.7rem;color:rgba(255,255,255,.7);margin-bottom:10px;display:flex;gap:10px}
+.reel-condition{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,0.12);border-radius:4px;padding:2px 7px}
+.reel-actions-row{display:flex;gap:8px}
+.btn-offer{flex:1;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);color:#fff;border-radius:50px;padding:9px 14px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+.btn-offer:hover{background:rgba(255,255,255,0.25)}
+.btn-buy{flex:1.2;background:var(--accent);border:none;color:#fff;border-radius:50px;padding:9px 14px;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;box-shadow:0 4px 15px var(--accent-glow)}
+.btn-buy:hover{background:var(--accent2)}
+.reel-price-tag{position:absolute;top:54px;left:14px;background:var(--accent);color:#fff;border-radius:8px;padding:4px 10px;font-size:.8rem;font-weight:800;z-index:10;box-shadow:0 2px 10px var(--accent-glow)}
+
+/* Double tap heart */
+.heart-burst{position:absolute;pointer-events:none;font-size:3rem;z-index:50;animation:heartBurst .7s ease-out forwards;opacity:0}
+@keyframes heartBurst{0%{opacity:1;transform:scale(.5) translateY(0)}50%{opacity:1;transform:scale(1.3) translateY(-30px)}100%{opacity:0;transform:scale(1.5) translateY(-70px)}}
+
+/* Reel nav arrows (desktop hint) */
+.reel-nav-arrows{position:absolute;right:60px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:10;opacity:0;transition:opacity .3s}
+#reels:hover .reel-nav-arrows{opacity:1}
+.reel-nav-btn{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.85rem;transition:background .2s}
+.reel-nav-btn:hover{background:rgba(255,255,255,0.3)}
+
+/* ---- NAV BAR ---- */
+.nav-bar{height:60px;background:var(--surface);border-top:1px solid var(--border);display:flex;align-items:center;flex-shrink:0;padding:0 8px;z-index:30}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 2px;border-radius:8px;transition:background .2s;border:none;background:none;color:var(--text3)}
+.nav-item:hover{background:var(--surface2)}
+.nav-item.active{color:var(--accent)}
+.nav-icon{font-size:1.1rem}
+.nav-label{font-size:.55rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.nav-sell{position:relative}
+.sell-circle{width:44px;height:44px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.4rem;box-shadow:0 4px 20px var(--accent-glow);margin-top:-16px;transition:transform .2s}
+.sell-circle:hover{transform:scale(1.1)}
+
+/* ---- MODAL SYSTEM ---- */
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);z-index:50;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal-sheet{position:absolute;bottom:0;left:0;right:0;background:var(--surface);border-radius:24px 24px 0 0;border-top:1px solid var(--border);z-index:60;transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:90%;overflow-y:auto;display:flex;flex-direction:column}
+.modal-sheet.open{transform:none}
+.modal-drag{width:36px;height:4px;border-radius:2px;background:var(--surface3);margin:10px auto 0}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 12px}
+.modal-head h3{font-size:1rem;font-weight:700}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--surface2);border:none;color:var(--text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:background .2s}
+.modal-close:hover{background:var(--surface3)}
+.modal-body{padding:0 20px 24px;display:flex;flex-direction:column;gap:14px}
+.modal-product-row{display:flex;align-items:center;gap:12px;background:var(--surface2);border-radius:var(--radius-sm);padding:12px}
+.modal-product-row img{width:52px;height:52px;border-radius:8px;object-fit:cover}
+.modal-product-row h4{font-size:.85rem;font-weight:600;margin-bottom:2px}
+.modal-product-row p{font-size:.75rem;color:var(--text2)}
+.offer-slider-wrap{display:flex;flex-direction:column;gap:8px}
+.offer-slider-wrap label{font-size:.78rem;color:var(--text2);display:flex;justify-content:space-between}
+.offer-slider-wrap label strong{color:var(--accent);font-size:.9rem}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--surface3);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;box-shadow:0 0 8px var(--accent-glow)}
+.range-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--text3)}
+.info-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;display:flex;gap:10px;align-items:flex-start}
+.info-box-icon{flex-shrink:0;font-size:1rem;color:var(--green)}
+.info-box p{font-size:.72rem;color:var(--text2);line-height:1.5}
+.info-box p strong{color:var(--text)}
+.btn-primary{width:100%;padding:14px;border:none;border-radius:50px;background:var(--accent);color:#fff;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px var(--accent-glow);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+.btn-secondary{width:100%;padding:12px;border:1px solid var(--border);border-radius:50px;background:var(--surface2);color:var(--text);font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-secondary:hover{background:var(--surface3)}
+
+/* Checkout modal specifics */
+.checkout-line{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:.8rem}
+.checkout-line:last-child{border-bottom:none}
+.checkout-line.total{font-weight:700;font-size:.9rem}
+.checkout-line .green{color:var(--green)}
+.mock-card{background:linear-gradient(135deg,#1a1a2e,#2d2d4e);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.mock-card-top{display:flex;justify-content:space-between;align-items:center;font-size:.7rem;color:var(--text2)}
+.mock-card-num{font-size:.9rem;font-weight:600;letter-spacing:.12em;color:var(--text)}
+.mock-card-bot{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text2)}
+
+/* WA Notification toast */
+.wa-toast{position:absolute;top:46px;left:12px;right:12px;background:#1e2b1e;border:1px solid #2a4a2a;border-radius:14px;padding:12px;z-index:100;transform:translateY(-120%);transition:transform .4s cubic-bezier(.4,0,.2,1);box-shadow:0 8px 30px rgba(0,0,0,.5)}
+.wa-toast.show{transform:none}
+.wa-toast-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.wa-toast-logo{width:22px;height:22px;border-radius:6px;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;color:#fff;flex-shrink:0}
+.wa-toast-title{font-size:.72rem;font-weight:700;color:#a5d6a7;flex:1}
+.wa-toast-time{font-size:.6rem;color:#5a8a5a}
+.wa-toast-msg{font-size:.72rem;color:#c8e6c9;line-height:1.45;margin-bottom:10px}
+.wa-toast-btns{display:flex;gap:8px}
+.wa-btn{flex:1;padding:7px;border-radius:8px;border:none;font-family:inherit;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
+.wa-btn-decline{background:rgba(255,255,255,0.1);color:#ccc}
+.wa-btn-accept{background:#25d366;color:#000}
+.wa-btn-accept:hover{background:#1fba57}
+
+/* Success overlay */
+.success-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:80;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+.success-overlay.show{opacity:1;pointer-events:auto}
+.success-card{background:var(--surface);border:1px solid var(--border);border-radius:24px;padding:28px 24px;text-align:center;max-width:260px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.success-icon{width:60px;height:60px;border-radius:50%;background:rgba(0,230,118,0.15);border:2px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:1.6rem}
+.success-card h3{font-size:1.05rem;font-weight:700}
+.success-card p{font-size:.78rem;color:var(--text2);line-height:1.5}
+.success-sim{display:flex;align-items:center;gap:8px;font-size:.72rem;color:var(--text2)}
+.sim-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:simPulse 1s infinite}
+@keyframes simPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+
+/* Sell screen */
+#sell{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px}
+.sell-screen-title{font-size:1.1rem;font-weight:700}
+.sell-screen-sub{font-size:.78rem;color:var(--text2);text-align:center;line-height:1.5}
+.sell-steps{width:100%;display:flex;flex-direction:column;gap:10px}
+.sell-step{display:flex;gap:12px;align-items:flex-start;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px}
+.sell-step-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:.72rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sell-step-text h5{font-size:.78rem;font-weight:600;margin-bottom:2px}
+.sell-step-text p{font-size:.7rem;color:var(--text2)}
+
+/* Profile/inbox (mock) */
+#inbox,#profile{background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:24px;text-align:center}
+.empty-icon{font-size:2.5rem;opacity:.4}
+.empty-title{font-size:.9rem;font-weight:600}
+.empty-sub{font-size:.75rem;color:var(--text2);line-height:1.5;max-width:220px}
+
+/* Animations */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.anim-fade{animation:fadeIn .4s ease}
+.anim-slide{animation:slideUp .4s ease}
+
+/* ---- PROMO GLOW EFFECTS ---- */
+.phone-wrap::before{content:'';position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:200px;height:60px;border-radius:50%;background:var(--accent-glow);filter:blur(30px);pointer-events:none}
+.phone-wrap::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;background:rgba(100,80,255,.12);filter:blur(20px);pointer-events:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- LEFT: PITCH PANEL -->
+  <div class="pitch">
+    <div>
+      <div class="pitch-logo"><span>Reel</span>Deal</div>
+    </div>
+    <div class="pitch-tag">Investor Demo • Zero Cost</div>
+    <h1>Buy &amp; sell anything via <em>short video reels</em></h1>
+    <p>The first A-to-Z second-hand marketplace where <strong>every listing is a video</strong>. Category-first browsing like Zepto, vertical reels like TikTok, instant escrow-backed bids via WhatsApp — all in one app.</p>
+    <div class="pitch-cards">
+      <div class="pitch-card">
+        <div class="pitch-card-icon" style="background:rgba(255,92,0,.15)">⚡</div>
+        <div>
+          <h4>Zepto-Style Directory</h4>
+          <p>High-intent buyers land on the exact category they want before they start swiping — 3× faster discovery than OLX/Facebook Marketplace.</p>
+        </div>
+      </div>
+      <div class="pitch-card">
+        <div class="pitch-card-icon" style="background:rgba(0,230,118,.12)">🛡️</div>
+        <div>
+          <h4>Zero Late-Replies</h4>
+          <p>Offer pre-authorises payment instantly. Seller taps Accept on WhatsApp → funds move to escrow. No chat ping-pong.</p>
+        </div>
+      </div>
+      <div class="pitch-card">
+        <div class="pitch-card-icon" style="background:rgba(68,138,255,.12)">🎬</div>
+        <div>
+          <h4>Video = Trust</h4>
+          <p>Sellers demo items live — defects, working condition, size — eliminating misleading photos and 90% of disputes.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pitch-stats">
+      <div class="stat"><div class="stat-val">A–Z</div><div class="stat-lbl">Every category, like Amazon for used goods</div></div>
+      <div class="stat"><div class="stat-val">$0</div><div class="stat-lbl">Cost to build this prototype</div></div>
+      <div class="stat"><div class="stat-val">5%</div><div class="stat-lbl">Escrow take-rate per transaction</div></div>
+    </div>
+    <div class="pitch-guide">
+      <h5>💡 Interactive Demo Guide</h5>
+      <ol>
+        <li>Tap a <strong>category</strong> (e.g. Tech or Fashion) on the home screen.</li>
+        <li><strong>Swipe up</strong> or use the arrows to browse reels.</li>
+        <li>Tap <strong>"Make Offer"</strong> → slide the bid → submit to see the <strong>WhatsApp notification</strong> pop up.</li>
+        <li>Try <strong>"Buy Now"</strong> to see the escrow checkout flow.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- RIGHT: PHONE -->
+  <div class="phone-wrap">
+    <div class="phone" id="phone">
+
+      <!-- NOTCH -->
+      <div class="phone-notch">
+        <div class="notch-cam"></div>
+        <div class="notch-pill"></div>
+      </div>
+
+      <!-- STATUS BAR -->
+      <div class="status-bar">
+        <span id="live-time">12:00</span>
+        <div class="status-right">
+          <span>▲▼</span>
+          <span>WiFi</span>
+          <div class="battery"><div class="battery-fill"></div></div>
+        </div>
+      </div>
+
+      <!-- SCREEN CONTAINER -->
+      <div class="screen-wrap">
+
+        <!-- ======= HOME SCREEN ======= -->
+        <div class="screen active" id="home">
+          <div class="home-header">
+            <div class="location">
+              <span class="loc-icon">📍</span>
+              <div class="loc-text">
+                <span class="loc-label">Your Location</span>
+                <span class="loc-val">Mumbai, IN ▾</span>
+              </div>
+            </div>
+            <div class="header-right">
+              <button class="icon-btn" onclick="navTo('inbox')">💬</button>
+              <button class="icon-btn" style="position:relative" onclick="navTo('inbox')">🔔<span class="notif-dot"></span></button>
+            </div>
+          </div>
+
+          <div class="search-wrap">
+            <div class="search-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" placeholder="Search clothes, laptops, sneakers…" readonly onfocus="this.blur()"/>
+              <span class="mic-icon">🎤</span>
+            </div>
+          </div>
+
+          <div class="promo-banner" onclick="openCategory('tech')">
+            <div class="promo-info">
+              <span class="promo-tag-badge">🔥 Hot Deals</span>
+              <h2>Trust-Verified P2P</h2>
+              <p>Escrow payment · 48h return window</p>
+            </div>
+            <span class="promo-emoji">🛡️</span>
+          </div>
+
+          <div class="sec-header">
+            <h3>Shop by Category</h3>
+            <span class="sec-see-all">A to Z →</span>
+          </div>
+
+          <div class="cat-grid" id="catGrid"></div>
+
+          <div class="sec-header">
+            <h3>Trending Near You</h3>
+            <span class="sec-see-all">See All</span>
+          </div>
+
+          <div class="trending-scroll" id="trendingScroll"></div>
+        </div>
+
+        <!-- ======= REELS SCREEN ======= -->
+        <div class="screen" id="reels">
+          <div class="reels-top">
+            <button class="reels-back-btn" onclick="navTo('home')">← Back</button>
+            <span class="reels-cat-title" id="reelsCatTitle">Category</span>
+            <button class="reels-mute-btn" id="muteBtn" onclick="toggleMute()">🔇</button>
+          </div>
+          <div class="reel-viewport" id="reelViewport" ondblclick="handleDoubleTap(event)"></div>
+          <div class="reel-nav-arrows">
+            <button class="reel-nav-btn" onclick="scrollReel(-1)">▲</button>
+            <button class="reel-nav-btn" onclick="scrollReel(1)">▼</button>
+          </div>
+        </div>
+
+        <!-- ======= SELL SCREEN ======= -->
+        <div class="screen" id="sell">
+          <div class="sell-screen-title">Sell Something</div>
+          <div class="sell-screen-sub">Record a 15-second video demo of your item and list it instantly in the right category.</div>
+          <div class="sell-steps">
+            <div class="sell-step"><span class="sell-step-num">1</span><div class="sell-step-text"><h5>Record Video</h5><p>Show the item from all angles. Show it working.</p></div></div>
+            <div class="sell-step"><span class="sell-step-num">2</span><div class="sell-step-text"><h5>Choose Category</h5><p>AI auto-tags your listing to the right category.</p></div></div>
+            <div class="sell-step"><span class="sell-step-num">3</span><div class="sell-step-text"><h5>Set Price &amp; Go Live</h5><p>Add a price. Your reel goes live to nearby buyers instantly.</p></div></div>
+          </div>
+          <button class="btn-primary" onclick="alert('📹 Camera access required — this works in the full app!')">📹 Start Recording</button>
+          <button class="btn-secondary" onclick="navTo('home')">← Back to Home</button>
+        </div>
+
+        <!-- ======= INBOX SCREEN ======= -->
+        <div class="screen" id="inbox">
+          <div class="empty-icon">💬</div>
+          <div class="empty-title">No Messages Yet</div>
+          <div class="empty-sub">All buyer-seller negotiations happen through instant bids — no endless chatting required.</div>
+          <button class="btn-secondary" onclick="navTo('home')" style="margin-top:8px">← Browse Listings</button>
+        </div>
+
+        <!-- ======= PROFILE SCREEN ======= -->
+        <div class="screen" id="profile">
+          <div class="empty-icon">👤</div>
+          <div class="empty-title">Demo Profile</div>
+          <div class="empty-sub">Completed purchases, trust score, response speed rating, and seller verification badges all live here.</div>
+          <button class="btn-secondary" onclick="navTo('home')" style="margin-top:8px">← Go Back</button>
+        </div>
+
+        <!-- MODAL BACKDROP -->
+        <div class="modal-backdrop" id="modalBackdrop" onclick="closeModals()"></div>
+
+        <!-- OFFER MODAL -->
+        <div class="modal-sheet" id="offerModal">
+          <div class="modal-drag"></div>
+          <div class="modal-head">
+            <h3>Make Direct Offer</h3>
+            <button class="modal-close" onclick="closeModals()">×</button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-product-row">
+              <img id="offerImg" src="" alt="Product"/>
+              <div>
+                <h4 id="offerTitle">Item</h4>
+                <p>Listed at: <strong id="offerListPrice">$0</strong></p>
+              </div>
+            </div>
+            <div class="offer-slider-wrap">
+              <label>Your Offer: <strong id="offerValDisplay">$0</strong></label>
+              <input type="range" id="offerSlider" min="1" max="100" value="80" oninput="syncOffer(this.value)"/>
+              <div class="range-labels"><span id="sliderMin">$0</span><span id="sliderMax">$0</span></div>
+            </div>
+            <div class="info-box">
+              <span class="info-box-icon">🛡️</span>
+              <p><strong>Pre-Authorized Escrow:</strong> Your offer locks funds without charging you. If seller accepts on WhatsApp, sale is instant. No messaging needed.</p>
+            </div>
+            <button class="btn-primary" onclick="submitOffer()">💳 Pre-Authorize &amp; Bid</button>
+          </div>
+        </div>
+
+        <!-- CHECKOUT MODAL -->
+        <div class="modal-sheet" id="checkoutModal">
+          <div class="modal-drag"></div>
+          <div class="modal-head">
+            <h3>Secure Checkout (Escrow)</h3>
+            <button class="modal-close" onclick="closeModals()">×</button>
+          </div>
+          <div class="modal-body">
+            <div>
+              <div class="checkout-line"><span id="checkTitle">Product</span><span id="checkPrice">$0</span></div>
+              <div class="checkout-line"><span>Buyer Protection (Escrow)</span><span class="green">$1.99</span></div>
+              <div class="checkout-line total"><span>Total</span><span id="checkTotal">$0</span></div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-top"><span>Saved Card</span><span>💳</span></div>
+              <div class="mock-card-num">•••• •••• •••• 4242</div>
+              <div class="mock-card-bot"><span>Demo User</span><span>12/29</span></div>
+            </div>
+            <div class="info-box">
+              <span class="info-box-icon">🔒</span>
+              <p>Funds held by ReelDeal. Released to seller 48 hours after delivery is confirmed.</p>
+            </div>
+            <button class="btn-primary" onclick="confirmBuy()">✅ Confirm Escrow Order</button>
+          </div>
+        </div>
+
+        <!-- WHATSAPP TOAST (Seller simulator) -->
+        <div class="wa-toast" id="waToast">
+          <div class="wa-toast-head">
+            <div class="wa-toast-logo">W</div>
+            <span class="wa-toast-title">ReelDeal Bot → You (Seller)</span>
+            <span class="wa-toast-time">Just now</span>
+          </div>
+          <p class="wa-toast-msg" id="waMsg">New offer received!</p>
+          <div class="wa-toast-btns">
+            <button class="wa-btn wa-btn-decline" onclick="waAction('decline')">Decline</button>
+            <button class="wa-btn wa-btn-accept" onclick="waAction('accept')">✓ Accept Offer</button>
+          </div>
+        </div>
+
+        <!-- SUCCESS OVERLAY -->
+        <div class="success-overlay" id="successOverlay">
+          <div class="success-card">
+            <div class="success-icon" id="successIcon">✅</div>
+            <h3 id="successTitle">Offer Sent!</h3>
+            <p id="successMsg">Your offer has been pre-authorized and sent to the seller via WhatsApp.</p>
+            <div class="success-sim" id="successSim"><span class="sim-dot"></span> Simulating seller response…</div>
+            <button class="btn-secondary" onclick="closeSuccessOverlay()" style="font-size:.78rem;padding:8px">Keep Browsing</button>
+          </div>
+        </div>
+
+      </div><!-- /screen-wrap -->
+
+      <!-- NAV BAR -->
+      <nav class="nav-bar">
+        <button class="nav-item active" id="nav-home" onclick="navTo('home')"><span class="nav-icon">🏠</span><span class="nav-label">Home</span></button>
+        <button class="nav-item" id="nav-reels-btn" onclick="navTo('reels')"><span class="nav-icon">▶️</span><span class="nav-label">Explore</span></button>
+        <button class="nav-item nav-sell" id="nav-sell" onclick="navTo('sell')"><div class="sell-circle">＋</div><span class="nav-label">Sell</span></button>
+        <button class="nav-item" id="nav-inbox" onclick="navTo('inbox')"><span class="nav-icon">💬</span><span class="nav-label">Inbox</span></button>
+        <button class="nav-item" id="nav-profile" onclick="navTo('profile')"><span class="nav-icon">👤</span><span class="nav-label">Profile</span></button>
+      </nav>
+
+    </div><!-- /phone -->
+  </div><!-- /phone-wrap -->
+
+</div><!-- /page -->
+
+<script>
+/* =========================================================
+   ReelDeal – Complete Application Logic
+   ========================================================= */
+
+/* ---------- DATA ---------- */
+const CATS = [
+  {id:'tech',     label:'Tech',      icon:'💻', color:'#448aff'},
+  {id:'fashion',  label:'Fashion',   icon:'👟', color:'#ff4081'},
+  {id:'home',     label:'Home',      icon:'🍳', color:'#00e676'},
+  {id:'auto',     label:'Auto',      icon:'🚗', color:'#ff6d00'},
+  {id:'books',    label:'Books',     icon:'📚', color:'#7c4dff'},
+  {id:'sports',   label:'Sports',    icon:'🏋️', color:'#00bcd4'},
+];
+
+const REELS = {
+  tech:[
+    {title:'Ducky One Keyboard',price:45,condition:'Good',seller:'@mech_hoarder',img:'https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=400&q=80&fit=crop',likes:'1.2k',views:'8.3k',bg:'#1a2a3a'},
+    {title:'iPhone X 128GB',price:250,condition:'Great',seller:'@gadget_store',img:'https://images.unsplash.com/photo-1567581935884-3349723552ca?w=400&q=80&fit=crop',likes:'3.4k',views:'22k',bg:'#1a1a2a'},
+    {title:'Sony WH-1000XM4',price:140,condition:'Like New',seller:'@audiogeek99',img:'https://images.unsplash.com/photo-1546435770-a3e426bf472b?w=400&q=80&fit=crop',likes:'2.1k',views:'14k',bg:'#0a1a1a'},
+  ],
+  fashion:[
+    {title:'Air Jordan 1 Retro',price:120,condition:'Good',seller:'@kix_reseller',img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80&fit=crop',likes:'5.6k',views:'34k',bg:'#2a1a1a'},
+    {title:'Levi\'s 501 Jeans',price:35,condition:'Used',seller:'@thrift_vibes',img:'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400&q=80&fit=crop',likes:'890',views:'5.1k',bg:'#1a1a2a'},
+    {title:'Vintage Denim Jacket',price:55,condition:'Good',seller:'@vintage_closet',img:'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&q=80&fit=crop',likes:'2.3k',views:'11k',bg:'#1a1a0a'},
+  ],
+  home:[
+    {title:'KitchenAid Stand Mixer',price:180,condition:'Great',seller:'@kitchen_deals',img:'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=400&q=80&fit=crop',likes:'1.1k',views:'6.8k',bg:'#2a1a0a'},
+    {title:'Dyson V8 Vacuum',price:200,condition:'Like New',seller:'@home_refresh',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',likes:'780',views:'4.2k',bg:'#0a1a2a'},
+  ],
+  auto:[
+    {title:'Shimano Bike Gear Set',price:75,condition:'Good',seller:'@cycleparts',img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80&fit=crop',likes:'430',views:'2.8k',bg:'#1a0a0a'},
+  ],
+  books:[
+    {title:'IELTS Prep Bundle (8 books)',price:20,condition:'Used',seller:'@studystack',img:'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=400&q=80&fit=crop',likes:'320',views:'1.9k',bg:'#1a1a0a'},
+  ],
+  sports:[
+    {title:'Adjustable Dumbbells 20kg',price:90,condition:'Good',seller:'@fitgear_hub',img:'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&q=80&fit=crop',likes:'670',views:'3.4k',bg:'#0a1a0a'},
+  ],
+};
+
+/* ---------- STATE ---------- */
+let currentScreen = 'home';
+let currentCat = 'tech';
+let currentReelIdx = 0;
+let offerContext = null;
+let isMuted = true;
+
+/* ---------- NAV ---------- */
+function navTo(screen){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById(screen).classList.add('active');
+  const nb = document.getElementById('nav-'+screen)||document.getElementById('nav-reels-btn');
+  if(nb) nb.classList.add('active');
+  currentScreen=screen;
+}
+
+function openCategory(catId){
+  currentCat=catId;
+  const cat=CATS.find(c=>c.id===catId)||CATS[0];
+  document.getElementById('reelsCatTitle').textContent=cat.icon+' '+cat.label;
+  buildReels(catId);
+  navTo('reels');
+}
+
+/* ---------- CATEGORIES ---------- */
+function buildCategories(){
+  const grid=document.getElementById('catGrid');
+  CATS.forEach(c=>{
+    const el=document.createElement('div');
+    el.className='cat-item';
+    el.style.setProperty('--cat-color',c.color);
+    el.innerHTML=`<div class="cat-icon-wrap" style="background:${c.color}22">${c.icon}</div><span class="cat-label">${c.label}</span>`;
+    el.onclick=()=>openCategory(c.id);
+    grid.appendChild(el);
+  });
+}
+
+/* ---------- TRENDING SCROLL ---------- */
+function buildTrending(){
+  const scrl=document.getElementById('trendingScroll');
+  const all=Object.values(REELS).flat().sort(()=>Math.random()-.5).slice(0,6);
+  all.forEach((r,i)=>{
+    const catId=Object.keys(REELS).find(k=>REELS[k].includes(r))||'tech';
+    const el=document.createElement('div');
+    el.className='trend-card';
+    el.innerHTML=`
+      <div class="trend-thumb" style="background:${r.bg}">
+        <img src="${r.img}" alt="${r.title}" loading="lazy"/>
+        <div class="trend-play"><span>▶</span></div>
+      </div>
+      <div class="trend-info">
+        <span class="trend-title">${r.title}</span>
+        <span class="trend-price">$${r.price}</span>
+        <span class="trend-seller">👁️ ${r.views}</span>
+      </div>`;
+    el.onclick=()=>openCategory(catId);
+    scrl.appendChild(el);
+  });
+}
+
+/* ---------- REELS ---------- */
+function buildReels(catId){
+  const vp=document.getElementById('reelViewport');
+  vp.innerHTML='';
+  currentReelIdx=0;
+  const items=REELS[catId]||REELS.tech;
+  items.forEach((r,idx)=>{
+    const slide=document.createElement('div');
+    slide.className='reel-slide';
+    slide.dataset.idx=idx;
+    slide.innerHTML=`
+      <img class="reel-img-bg" src="${r.img}" alt="${r.title}" loading="lazy"/>
+      <div class="reel-gradient"></div>
+      <div class="reel-price-tag">$${r.price}</div>
+      <div class="reel-sidebar">
+        <div class="reel-action" onclick="toggleLike(this)">
+          <div class="reel-action-btn">❤️</div>
+          <span class="reel-action-count">${r.likes}</span>
+        </div>
+        <div class="reel-action">
+          <div class="reel-action-btn">💬</div>
+          <span class="reel-action-count">42</span>
+        </div>
+        <div class="reel-action">
+          <div class="reel-action-btn">↗️</div>
+          <span class="reel-action-count">Share</span>
+        </div>
+        <div class="reel-action" onclick="openOffer(${idx})">
+          <div class="reel-action-btn">💰</div>
+          <span class="reel-action-count">Bid</span>
+        </div>
+      </div>
+      <div class="reel-info">
+        <div class="reel-seller">
+          <div class="seller-avatar"><img src="${r.img}" alt="seller"/></div>
+          <span class="seller-name">${r.seller}</span>
+          <span class="seller-badge">✓ Verified</span>
+        </div>
+        <div class="reel-title">${r.title}</div>
+        <div class="reel-meta">
+          <span class="reel-condition">📦 ${r.condition}</span>
+          <span>👁️ ${r.views} views</span>
+        </div>
+        <div class="reel-actions-row">
+          <button class="btn-offer" onclick="openOffer(${idx})">💰 Make Offer</button>
+          <button class="btn-buy" onclick="openCheckout(${idx})">🛒 Buy Now</button>
+        </div>
+      </div>`;
+    vp.appendChild(slide);
+  });
+  // Observe visible slides for auto-context
+  observeReels();
+}
+
+function observeReels(){
+  const vp=document.getElementById('reelViewport');
+  const slides=vp.querySelectorAll('.reel-slide');
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.intersectionRatio>.5)currentReelIdx=parseInt(e.target.dataset.idx)});
+  },{root:vp,threshold:.5});
+  slides.forEach(s=>obs.observe(s));
+}
+
+function scrollReel(dir){
+  const vp=document.getElementById('reelViewport');
+  const slides=vp.querySelectorAll('.reel-slide');
+  const newIdx=Math.max(0,Math.min(slides.length-1,currentReelIdx+dir));
+  slides[newIdx].scrollIntoView({behavior:'smooth'});
+  currentReelIdx=newIdx;
+}
+
+function handleDoubleTap(e){
+  const heart=document.createElement('div');
+  heart.className='heart-burst';
+  heart.textContent='❤️';
+  heart.style.left=(e.offsetX-20)+'px';
+  heart.style.top=(e.offsetY-20)+'px';
+  e.currentTarget.appendChild(heart);
+  setTimeout(()=>heart.remove(),800);
+}
+
+function toggleLike(el){
+  const btn=el.querySelector('.reel-action-btn');
+  btn.style.transform='scale(1.4)';
+  setTimeout(()=>btn.style.transform='',200);
+}
+
+function toggleMute(){
+  isMuted=!isMuted;
+  document.getElementById('muteBtn').textContent=isMuted?'🔇':'🔊';
+}
+
+/* ---------- OFFER MODAL ---------- */
+function openOffer(idx){
+  const items=REELS[currentCat]||REELS.tech;
+  const r=items[idx];
+  offerContext={idx,r};
+  document.getElementById('offerImg').src=r.img;
+  document.getElementById('offerTitle').textContent=r.title;
+  document.getElementById('offerListPrice').textContent='$'+r.price;
+  const min=Math.max(1,Math.round(r.price*.5));
+  const max=r.price;
+  const def=Math.round(r.price*.85);
+  const slider=document.getElementById('offerSlider');
+  slider.min=min; slider.max=max; slider.value=def;
+  document.getElementById('sliderMin').textContent='$'+min;
+  document.getElementById('sliderMax').textContent='$'+max;
+  document.getElementById('offerValDisplay').textContent='$'+def;
+  openModal('offerModal');
+}
+
+function syncOffer(v){
+  document.getElementById('offerValDisplay').textContent='$'+v;
+}
+
+function submitOffer(){
+  if(!offerContext)return;
+  const amount=document.getElementById('offerSlider').value;
+  const r=offerContext.r;
+  closeModals();
+  // Show success overlay for buyer
+  document.getElementById('successTitle').textContent='Offer Sent! 🎉';
+  document.getElementById('successMsg').textContent=`Your $${amount} offer on "${r.title}" is pre-authorized. Notifying seller via WhatsApp now…`;
+  document.getElementById('successSim').style.display='flex';
+  document.getElementById('successOverlay').classList.add('show');
+  // Show WA toast (seller view simulation) after 1.2s
+  setTimeout(()=>{
+    document.getElementById('waMsg').textContent=`🛒 New bid! Buyer offers $${amount} for "${r.title}". Your listing price: $${r.price}.`;
+    document.getElementById('waToast').classList.add('show');
+  },1200);
+}
+
+/* ---------- CHECKOUT MODAL ---------- */
+function openCheckout(idx){
+  const items=REELS[currentCat]||REELS.tech;
+  const r=items[idx];
+  offerContext={idx,r};
+  document.getElementById('checkTitle').textContent=r.title;
+  document.getElementById('checkPrice').textContent='$'+r.price;
+  document.getElementById('checkTotal').textContent='$'+(r.price+1.99).toFixed(2);
+  openModal('checkoutModal');
+}
+
+function confirmBuy(){
+  if(!offerContext)return;
+  const r=offerContext.r;
+  closeModals();
+  document.getElementById('successTitle').textContent='Order Placed! ✅';
+  document.getElementById('successMsg').textContent=`Your purchase of "${r.title}" is secured in escrow. Seller has 24h to confirm shipping.`;
+  document.getElementById('successSim').style.display='none';
+  document.getElementById('successOverlay').classList.add('show');
+}
+
+/* ---------- WA TOAST ---------- */
+function waAction(action){
+  const toast=document.getElementById('waToast');
+  toast.classList.remove('show');
+  if(action==='accept'){
+    setTimeout(()=>{
+      document.getElementById('successTitle').textContent='🎉 Seller Accepted!';
+      document.getElementById('successMsg').textContent='Payment moved to escrow. Seller will ship within 24h. Track in your Inbox.';
+      document.getElementById('successSim').style.display='none';
+      document.getElementById('successOverlay').classList.add('show');
+    },300);
+  }
+}
+
+/* ---------- MODAL HELPERS ---------- */
+function openModal(id){
+  document.getElementById('modalBackdrop').classList.add('open');
+  document.getElementById(id).classList.add('open');
+}
+function closeModals(){
+  document.getElementById('modalBackdrop').classList.remove('open');
+  document.querySelectorAll('.modal-sheet').forEach(m=>m.classList.remove('open'));
+}
+function closeSuccessOverlay(){
+  document.getElementById('successOverlay').classList.remove('show');
+  document.getElementById('waToast').classList.remove('show');
+}
+
+/* ---------- LIVE CLOCK ---------- */
+function updateClock(){
+  const n=new Date();
+  const h=n.getHours().toString().padStart(2,'0');
+  const m=n.getMinutes().toString().padStart(2,'0');
+  document.getElementById('live-time').textContent=h+':'+m;
+}
+
+/* ---------- INIT ---------- */
+function init(){
+  updateClock();
+  setInterval(updateClock,30000);
+  buildCategories();
+  buildTrending();
+  buildReels('tech');
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',init);
+}else{
+  init();
+}
+</script>
+</body>
+</html>
